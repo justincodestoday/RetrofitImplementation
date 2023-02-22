@@ -41,13 +41,17 @@ class DetailsFragment : Fragment() {
 
         viewModel.product.observe(viewLifecycleOwner) {
             binding.run {
+                val price = "RM${it.price} per unit"
+                val rating = "⭐${it.rating}"
+                val discount = "${it.discountPercentage}%"
+                val stock = "${it.stock} units available"
                 tvTitle.text = it.title
                 tvDescription.text = it.description
                 tvBrand.text = it.brand
-                tvPrice.text = it.price.toString()
-                tvRating.text = it.rating.toString()
-                tvDiscount.text = it.discountPercentage.toString()
-                tvStock.text = it.stock.toString()
+                tvPrice.text = price
+                tvRating.text = rating
+                tvDiscount.text = discount
+                tvStock.text = stock
 
                 if (it.images.isNotEmpty() && URLUtil.isValidUrl(it.images[0])) {
                     Glide.with(binding.root).load(it.images[0]).into(ivImage)
