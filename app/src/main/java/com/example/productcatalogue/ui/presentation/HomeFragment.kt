@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.productcatalogue.MyApplication
 import com.example.productcatalogue.R
 import com.example.productcatalogue.data.api.RetrofitClient
+import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.databinding.FragmentHomeBinding
 import com.example.productcatalogue.ui.adapter.ProductAdapter
@@ -43,6 +45,12 @@ class HomeFragment : Fragment() {
     private fun setupAdapter() {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         adapter = ProductAdapter(mutableListOf())
+        adapter.listener = object : ProductAdapter.Listener {
+            override fun onClick(product: Product) {
+                val action = HomeFragmentDirections.actionHomeToDetails(product.id)
+                NavHostFragment.findNavController(this@HomeFragment).navigate(action)
+            }
+        }
         binding.rvProducts.adapter = adapter
         binding.rvProducts.layoutManager = layoutManager
     }

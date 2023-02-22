@@ -1,6 +1,7 @@
 package com.example.productcatalogue.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,8 @@ import com.example.productcatalogue.utils.update
 class ProductAdapter(private var products: MutableList<Product>) :
     RecyclerView.Adapter<ProductAdapter.ItemProductHolder>() {
 
+    var listener: Listener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemProductHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemProductLayoutBinding.inflate(layoutInflater, parent, false)
@@ -20,19 +23,23 @@ class ProductAdapter(private var products: MutableList<Product>) :
     }
 
     override fun onBindViewHolder(holder: ItemProductHolder, position: Int) {
-        val item = products[position]
+        val product = products[position]
         holder.binding.run {
-            val caption = "${item.category} at RM${item.price}"
-            tvTitle.text = item.title
-            tvBrand.text = item.brand
+            val caption = "${product.brand} ${product.category} at RM${product.price}"
+            val rating = "⭐${product.rating}"
+            tvTitle.text = product.title
             tvCaption.text = caption
-            tvRating.text = item.rating.toString()
-            if (item.images.isNotEmpty() && URLUtil.isValidUrl(item.images[0])) {
+            tvRating.text = rating
+            if (product.images.isNotEmpty() && URLUtil.isValidUrl(product.images[0])) {
                 Glide.with(holder.binding.root)
-                    .load(item.images[0]).into(ivImage)
+                    .load(product.images[0]).into(ivImage)
             } else {
                 Glide.with(holder.binding.root)
                     .load(R.drawable.ic_empty_folder).into(ivImage)
+            }
+
+            cvTaskItem.setOnClickListener {
+                listener?.onClick(product)
             }
         }
     }
@@ -48,4 +55,8 @@ class ProductAdapter(private var products: MutableList<Product>) :
 
     class ItemProductHolder(val binding: ItemProductLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    interface Listener {
+        fun onClick(product: Product)
+    }
 }

@@ -8,9 +8,9 @@ class ProductRepository(private val productApi: ProductApi) {
         return productApi.getAllProducts().products
     }
 
-//    suspend fun getProductById(id: Int): Product {
-//        return productApi.getProductById(id)
-//    }
+    suspend fun getProductById(id: Int): Product {
+        return productApi.getProductById(id)
+    }
 
     companion object {
         var productRepositoryInstance: ProductRepository? = null

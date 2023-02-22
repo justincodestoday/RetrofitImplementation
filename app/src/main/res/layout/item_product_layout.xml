@@ -4,7 +4,7 @@
     android:id="@+id/cv_task_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
+    android:layout_margin="12dp"
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:elevation="10dp"
@@ -36,19 +36,10 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_brand"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_title"
-            android:layout_marginBottom="6dp"
-            android:text="Brand"
-            android:textSize="16sp" />
-
-        <TextView
             android:id="@+id/tv_caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_brand"
+            android:layout_below="@id/tv_title"
             android:layout_marginBottom="6dp"
             android:text="Caption"
             android:textSize="16sp" />
