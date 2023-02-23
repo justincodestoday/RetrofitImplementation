@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Task.Text.Base" parent="">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Task.Header.Black" parent="Task.Text.Base">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Task.Body.Black" parent="Task.Text.Base">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Edit.Text.Base" parent="android:Widget.EditText">
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Edit.Text.MultiLine.Base" parent="android:Widget.EditText">
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Edit.Text.Fill" parent="Edit.Text.Base">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/app_bg</item>
+        <item name="android:textColorHint">@color/app_bg</item>
+    </style>
+
+    <style name="Edit.Text.MultiLine.Fill" parent="Edit.Text.MultiLine.Base">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/app_bg</item>
+        <item name="android:textColorHint">@color/app_bg</item>
+    </style>
+</resources>

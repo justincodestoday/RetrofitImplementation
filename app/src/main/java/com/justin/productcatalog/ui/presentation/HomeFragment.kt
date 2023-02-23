@@ -7,48 +7,71 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.justin.productcatalog.MyApplication
 import com.justin.productcatalog.R
 import com.justin.productcatalog.databinding.FragmentHomeBinding
-import com.justin.productcatalog.databinding.ItemLayoutProductBinding
 import com.justin.productcatalog.ui.adapter.ProductAdapter
 import com.justin.productcatalog.ui.viewModel.HomeViewModel
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var adapter: ProductAdapter
-    private val viewModel: HomeViewModel by viewModels {
+
+    override val viewModel: HomeViewModel by viewModels {
         HomeViewModel.Provider((requireActivity().application as MyApplication).productRepository)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    override fun getLayoutResource() = R.layout.fragment_home
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onBindView(view: View, savedInstanceState: Bundle?) {
+        super.onBindView(view, savedInstanceState)
+//        binding?.lifecycleOwner = viewLifecycleOwner
+//        binding?.viewModel = viewModel
         setupAdapter()
 
-        viewModel.getProducts()
-        viewModel.products.observe(viewLifecycleOwner) {
-            adapter.setProducts(it)
-//            adapter = ProductAdapter(it)
-//            val layoutManager = GridLayoutManager(this.activity, 2)
-//            binding.rvProducts.adapter = adapter
-//            binding.rvProducts.layoutManager = layoutManager
+        binding?.btnAdd?.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToAddTaskFragment()
+            NavHostFragment.findNavController(this).navigate(action)
         }
     }
+
+    override fun onBindData(view: View) {
+        super.onBindData(view)
+
+//        viewModel.getProducts()
+        viewModel.products.observe(viewLifecycleOwner) {
+            adapter.setProducts(it)
+        }
+    }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        setupAdapter()
+//
+//        viewModel.getProducts()
+//        viewModel.products.observe(viewLifecycleOwner) {
+//            adapter.setProducts(it)
+//        }
+//
+////        lifecycleScope.launch {
+////            viewModel.error.collect {
+////                val snackbar = Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT)
+////                snackbar.show()
+////            }
+////        }
+//    }
 
     private fun setupAdapter() {
         adapter = ProductAdapter(mutableListOf())
         val layoutManager = GridLayoutManager(this.activity, 2)
-        binding.rvProducts.adapter = adapter
-        binding.rvProducts.layoutManager = layoutManager
+        binding?.rvProducts?.adapter = adapter
+        binding?.rvProducts?.layoutManager = layoutManager
     }
 }

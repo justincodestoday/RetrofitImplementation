@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.justin.productcatalog.R
 import com.justin.productcatalog.data.model.Product
 import com.justin.productcatalog.databinding.ItemLayoutProductBinding
 import com.justin.productcatalog.util.update
@@ -39,21 +41,27 @@ class ProductAdapter(
         holder.binding.run {
             tvBrand.text = item.brand
             tvTitle.text = item.title
-            val executor = Executors.newSingleThreadExecutor()
-            val handler = Handler(Looper.getMainLooper())
-            var image: Bitmap? = null
-            executor.execute {
-                val imageURL = item.thumbnail
-                try {
-                    val `in` = java.net.URL(imageURL).openStream()
-                    image = BitmapFactory.decodeStream(`in`)
-                    handler.post {
-                        ivImage.setImageBitmap(image)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
+
+            Glide.with(holder.binding.root)
+                .load(item.thumbnail)
+                .placeholder(R.drawable.insert_photo)
+                .into(ivImage)
+
+//            val executor = Executors.newSingleThreadExecutor()
+//            val handler = Handler(Looper.getMainLooper())
+//            var image: Bitmap? = null
+//            executor.execute {
+//                val imageURL = item.thumbnail
+//                try {
+//                    val `in` = java.net.URL(imageURL).openStream()
+//                    image = BitmapFactory.decodeStream(`in`)
+//                    handler.post {
+//                        ivImage.setImageBitmap(image)
+//                    }
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
         }
     }
 }
