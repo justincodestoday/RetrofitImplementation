@@ -7,16 +7,29 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.fantasy.productcatalogue.data.model.Product
 import com.fantasy.productcatalogue.data.repository.ProductRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repo: ProductRepository) : ViewModel() {
+class HomeViewModel(private val repo: ProductRepository) : BaseViewModel() {
     val products: MutableLiveData<MutableList<Product>> = MutableLiveData()
+//    val error: MutableSharedFlow<String> = MutableSharedFlow()
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+        getProducts()
+    }
 
     fun getProducts() {
         viewModelScope.launch {
-            val res = repo.getAllProducts()
-            products.value = res.toMutableList()
-            Log.d("debugging", res.toString())
+//            try {
+                val res = safeApiCall { repo.getAllProducts() }
+                products.value = res?.toMutableList()
+//                products.value = mutableListOf(res)
+//            } catch (e: Exception) {
+//                error.emit(e.message.toString())
+//                Log.d("debugging", e.message.toString())
+//            }
         }
     }
 
