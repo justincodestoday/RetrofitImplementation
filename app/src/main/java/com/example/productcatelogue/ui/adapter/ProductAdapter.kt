@@ -1,12 +1,17 @@
 package com.example.productcatelogue.ui.adapter
 
-import android.util.Log
+import android.graphics.BitmapFactory
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.productcatelogue.R
 import com.example.productcatelogue.data.model.Product
 import com.example.productcatelogue.databinding.ItemLayoutProductBinding
 import com.example.productcatelogue.utils.update
+import java.util.concurrent.Executors
 
 class ProductAdapter(private var products: MutableList<Product>) :
     RecyclerView.Adapter<ProductAdapter.ItemTaskHolder>() {
@@ -19,10 +24,29 @@ class ProductAdapter(private var products: MutableList<Product>) :
 
     override fun onBindViewHolder(holder: ItemTaskHolder, position: Int) {
         val product = products[position]
+
         holder.binding.run {
             tvTitle.text = product.title
             tvBrand.text = product.brand
-            tvPrice.text = product.price.toString()
+            tvDes.text = product.description
+            tvPrice.text = "RM ${product.price}"
+            Glide.with(holder.binding.root)
+                .load(product.thumbnail)
+                .placeholder(R.drawable.insert_photo)
+                .into(image)
+
+
+
+//            val executor = Executors.newSingleThreadExecutor()
+//            val handler = Handler(Looper.getMainLooper())
+//            executor.execute {
+//                val imageURL = product.thumbnail
+//                val `in` = java.net.URL(imageURL).openStream()
+//                val bitmap = BitmapFactory.decodeStream(`in`)
+//                handler.post {
+//                    image.setImageBitmap(bitmap)
+//                }
+//            }
         }
     }
 
@@ -35,7 +59,6 @@ class ProductAdapter(private var products: MutableList<Product>) :
     }
 
     override fun getItemCount() = products.size
-
 
     class ItemTaskHolder(val binding: ItemLayoutProductBinding) :
         RecyclerView.ViewHolder(binding.root)

@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object RetrofitClient {
-    private const val baseUrl = "https://dummyjson.com"
+    private const val baseUrl = "https://dummyjson.com/"
     private var retrofitInstance: ProductApi? = null
 
     fun getInstance(): ProductApi {
