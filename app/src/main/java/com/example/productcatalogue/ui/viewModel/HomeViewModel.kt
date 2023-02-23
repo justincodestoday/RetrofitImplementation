@@ -7,10 +7,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repo: ProductRepository) : ViewModel() {
+class HomeViewModel(private val repo: ProductRepository) : BaseViewModel() {
     val products: MutableLiveData<MutableList<Product>> = MutableLiveData()
+//    val error2: MutableSharedFlow<String> = MutableSharedFlow()
 
     init {
         getProducts()
@@ -18,8 +21,17 @@ class HomeViewModel(private val repo: ProductRepository) : ViewModel() {
 
     fun getProducts() {
         viewModelScope.launch {
-            val res = repo.getAllProducts()
-            products.value = res.toMutableList()
+            val res = safeApiCall { repo.getAllProducts() }
+//            try {
+//                val res = repo.getAllProducts()
+//                products.value = res.toMutableList()
+//            } catch (e: Exception) {
+////                e.message
+////                e.printStackTrace()
+////                error.emit(e.message.toString())
+//                error2.emit("something is wrong")
+//                Log.d("debugging", e.message.toString())
+//            }
         }
     }
 

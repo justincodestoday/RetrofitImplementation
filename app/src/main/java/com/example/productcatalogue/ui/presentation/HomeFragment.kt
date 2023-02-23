@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.productcatalogue.MyApplication
@@ -16,11 +17,14 @@ import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.databinding.FragmentHomeBinding
 import com.example.productcatalogue.ui.adapter.ProductAdapter
+import com.example.productcatalogue.ui.viewModel.BaseViewModel
 import com.example.productcatalogue.ui.viewModel.HomeViewModel
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val viewModel: HomeViewModel by viewModels {
+    override val viewModel: HomeViewModel by viewModels {
         HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
     }
     private lateinit var adapter: ProductAdapter
@@ -40,6 +44,12 @@ class HomeFragment : Fragment() {
         viewModel.products.observe(viewLifecycleOwner) {
             adapter.setProducts(it)
         }
+
+//        lifecycleScope.launch {
+//            viewModel.error.collect {
+//                Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+//            }
+//        }
     }
 
     private fun setupAdapter() {
