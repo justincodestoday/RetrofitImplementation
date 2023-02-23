@@ -13,3 +13,12 @@ data class Product(
     val thumbnail: String,
     val title: String
 )
+
+/*
+title
+description
+brand
+category
+price
+stock
+ */

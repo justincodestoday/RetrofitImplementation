@@ -30,9 +30,9 @@ class ProductAdapter(private var products: MutableList<Product>) :
             tvTitle.text = product.title
             tvCaption.text = caption
             tvRating.text = rating
-            if (product.images.isNotEmpty() && URLUtil.isValidUrl(product.images[0])) {
+            if (product.thumbnail.isNotEmpty() && URLUtil.isValidUrl(product.thumbnail)) {
                 Glide.with(holder.binding.root)
-                    .load(product.images[0]).into(ivImage)
+                    .load(product.thumbnail).into(ivImage)
             } else {
                 Glide.with(holder.binding.root)
                     .load(R.drawable.ic_empty_folder).into(ivImage)

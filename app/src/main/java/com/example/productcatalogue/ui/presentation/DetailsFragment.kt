@@ -18,26 +18,26 @@ import com.example.productcatalogue.ui.adapter.ProductAdapter
 import com.example.productcatalogue.ui.viewModel.DetailsViewModel
 import com.example.productcatalogue.ui.viewModel.HomeViewModel
 
-class DetailsFragment : Fragment() {
-    private lateinit var binding: FragmentDetailsBinding
-    private val viewModel: DetailsViewModel by viewModels {
+class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
+    override val viewModel: DetailsViewModel by viewModels {
         DetailsViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDetailsBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    override fun getLayoutResource() = R.layout.fragment_details
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onBindView(view: View, savedInstanceState: Bundle?) {
+        super.onBindView(view, savedInstanceState)
 
         val navArgs: DetailsFragmentArgs by navArgs()
 
         viewModel.getProductById(navArgs.id)
+        binding!!.btnBack.setOnClickListener {
+            NavHostFragment.findNavController(this).popBackStack()
+        }
+    }
+
+    override fun onBindData(view: View) {
+        super.onBindData(view)
 
         viewModel.product.observe(viewLifecycleOwner) {
             binding.run {
@@ -45,7 +45,7 @@ class DetailsFragment : Fragment() {
                 val rating = "⭐${it.rating}"
                 val discount = "${it.discountPercentage}%"
                 val stock = "${it.stock} units available"
-                tvTitle.text = it.title
+                this!!.tvTitle.text = it.title
                 tvDescription.text = it.description
                 tvBrand.text = it.brand
                 tvPrice.text = price
@@ -54,14 +54,11 @@ class DetailsFragment : Fragment() {
                 tvStock.text = stock
 
                 if (it.images.isNotEmpty() && URLUtil.isValidUrl(it.images[0])) {
-                    Glide.with(binding.root).load(it.images[0]).into(ivImage)
+                    Glide.with(binding!!.root).load(it.images[0]).into(ivImage)
                 } else {
-                    Glide.with(binding.root).load(R.drawable.ic_empty_folder).into(ivImage)
+                    Glide.with(binding!!.root).load(R.drawable.ic_empty_folder).into(ivImage)
                 }
             }
-        }
-        binding.btnBack.setOnClickListener {
-            NavHostFragment.findNavController(this@DetailsFragment).popBackStack()
         }
     }
 }

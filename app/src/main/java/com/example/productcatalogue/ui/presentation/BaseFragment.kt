@@ -1,7 +1,11 @@
 package com.example.productcatalogue.ui.presentation
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.productcatalogue.ui.viewModel.BaseViewModel
@@ -9,8 +13,25 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     abstract val viewModel: BaseViewModel
+    var binding: T? = null
+    abstract fun getLayoutResource(): Int
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launchWhenResumed {
+            viewModel.onViewCreated()
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(getLayoutResource(), container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -18,7 +39,8 @@ abstract class BaseFragment : Fragment() {
         onBindData(view)
     }
 
-    fun onBindView(view: View, savedInstanceState: Bundle?) {
+    open fun onBindView(view: View, savedInstanceState: Bundle?) {
+        binding = DataBindingUtil.bind(view)
         lifecycleScope.launch {
             viewModel.error.collect {
                 Snackbar.make(view, it, Snackbar.LENGTH_LONG).show()
@@ -26,5 +48,7 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    fun onBindData(view: View) {}
+    open fun onBindData(view: View) {
+        binding = DataBindingUtil.bind(view)
+    }
 }

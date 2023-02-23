@@ -22,34 +22,28 @@ import com.example.productcatalogue.ui.viewModel.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-class HomeFragment : BaseFragment() {
-    private lateinit var binding: FragmentHomeBinding
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val viewModel: HomeViewModel by viewModels {
         HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
     }
     private lateinit var adapter: ProductAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(layoutInflater)
-        return binding.root
+    override fun getLayoutResource() = R.layout.fragment_home
+
+    override fun onBindView(view: View, savedInstanceState: Bundle?) {
+        super.onBindView(view, savedInstanceState)
+        setupAdapter()
+        binding!!.btnAdd.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeToAddProduct()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupAdapter()
+    override fun onBindData(view: View) {
+        super.onBindData(view)
         viewModel.products.observe(viewLifecycleOwner) {
             adapter.setProducts(it)
         }
-
-//        lifecycleScope.launch {
-//            viewModel.error.collect {
-//                Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
-//            }
-//        }
     }
 
     private fun setupAdapter() {
@@ -61,7 +55,7 @@ class HomeFragment : BaseFragment() {
                 NavHostFragment.findNavController(this@HomeFragment).navigate(action)
             }
         }
-        binding.rvProducts.adapter = adapter
-        binding.rvProducts.layoutManager = layoutManager
+        binding!!.rvProducts.adapter = adapter
+        binding!!.rvProducts.layoutManager = layoutManager
     }
 }

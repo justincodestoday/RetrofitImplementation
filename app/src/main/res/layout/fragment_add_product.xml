@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        tools:context=".ui.presentation.AddProductFragment">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/black"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="ADD PRODUCT"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/upload_image_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_header"
+                    android:layout_margin="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="15dp"
+                        android:text="Upload Image"
+                        android:textSize="18sp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="10dp"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="1dp">
+
+                        <ImageView
+                            android:id="@+id/ivUploadImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="165dp"
+                            android:clickable="true"
+                            android:contentDescription="Upload an Image"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/upload_image" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/et_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/upload_image_container"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/add_product_input"
+                    android:hint="Title"
+                    android:minHeight="48dp"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_title"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/add_product_input"
+                    android:hint="Description"
+                    android:inputType="textMultiLine"
+                    android:minHeight="48dp"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/et_brand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_description"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/add_product_input"
+                    android:hint="Brand"
+                    android:minHeight="48dp"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/et_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_brand"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/add_product_input"
+                    android:hint="Category"
+                    android:minHeight="48dp"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/et_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_category"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/add_product_input"
+                    android:hint="Price"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/et_stock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_price"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/add_product_input"
+                    android:hint="Stock"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/et_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_stock"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/add_product_input"
+                    android:hint="Discount Percentage"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:padding="10dp" />
+
+                <EditText
+                    android:id="@+id/et_rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_discount"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/add_product_input"
+                    android:hint="Rating"
+                    android:inputType="number"
+                    android:minHeight="48dp"
+                    android:padding="10dp" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_rating"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="#E91E63"
+                    android:contentDescription="Cancel Add Product"
+                    app:icon="@drawable/ic_cancel"
+                    app:iconTint="@color/white" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/btn_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_rating"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="@color/design_default_color_primary"
+                    android:contentDescription="Confirm Add Product"
+                    app:icon="@drawable/ic_confirm"
+                    app:iconTint="@color/white" />
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

@@ -8,13 +8,13 @@ import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
 import kotlinx.coroutines.launch
 
-class DetailsViewModel(private val repo: ProductRepository) : ViewModel() {
+class DetailsViewModel(private val repo: ProductRepository) : BaseViewModel() {
     val product: MutableLiveData<Product> = MutableLiveData()
 
     fun getProductById(id: Int) {
         viewModelScope.launch {
-            val res = repo.getProductById(id)
-            res.let {
+            val res = safeApiCall { repo.getProductById(id) }
+            res?.let {
                 product.value = it
             }
         }
