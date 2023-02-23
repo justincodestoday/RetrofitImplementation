@@ -1,11 +1,11 @@
 package com.example.productcatalogue.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.productcatalogue.R
 import com.example.productcatalogue.data.model.Product
-import com.example.productcatalogue.databinding.FragmentHomeBinding
 import com.example.productcatalogue.databinding.ItemProductLayoutBinding
 import com.example.productcatalogue.utils.update
 
@@ -23,8 +23,15 @@ class ProductAdapter(private var products: List<Product>) :
 
         holder.binding.run {
             title.text = products.brand
-            price.text = products.price.toString()
+            price.text = "RM " + products.price.toString()
+            name.text =  products.title
 
+            Glide.with(holder.binding.root)
+                .load(products.thumbnail)
+                .placeholder(R.drawable.baseline_insert_photo_24)
+                .into(ivImage)
+
+//                .placeholderDrawable(R.drawable.baseline_insert_photo_24)
         }
 
     }

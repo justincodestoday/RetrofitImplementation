@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.productcatalogue.R
 import com.example.productcatalogue.ui.adapter.ProductAdapter
@@ -15,39 +16,41 @@ import com.example.productcatalogue.data.api.RetrofitClient
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.databinding.FragmentHomeBinding
 import com.example.productcatalogue.ui.viewModel.HomeViewModel
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
-    private lateinit var adapter: ProductAdapter
-
-    private val viewModel: HomeViewModel by viewModels {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+    private lateinit var adapter : ProductAdapter
+    override val viewModel: HomeViewModel by viewModels {
         HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHomeBinding.inflate(layoutInflater)
-        return binding.root
+    override fun getLayoutResource() = R.layout.fragment_home
+
+    override fun onBindView(view: View, savedInstanceState: Bundle?) {
+        super.onBindView(view, savedInstanceState)
+        setupAdapter()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.getProducts()
-        setupAdapter()
-        viewModel.products.observe(viewLifecycleOwner) {
+    override fun onBindData(view: View) {
+        super.onBindData(view)
+        viewModel.products.observe(viewLifecycleOwner){
+//            Log.d("debugging", it.toString())
             adapter.setProduct(it)
+        }
+        binding?.febAdd?.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToProductsFragment()
+            NavHostFragment.findNavController(this).navigate(action)
         }
     }
 
     fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = ProductAdapter(mutableListOf())
-        binding.rvProducts.adapter = adapter
-        binding.rvProducts.layoutManager = layoutManager
+        binding?.rvProducts?.adapter = adapter
+        binding?.rvProducts?.layoutManager = layoutManager
     }
 
 }
