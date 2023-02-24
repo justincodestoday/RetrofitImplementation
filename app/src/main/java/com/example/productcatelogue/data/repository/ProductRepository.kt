@@ -10,7 +10,9 @@ class ProductRepository(private val productApi:ProductApi) {
         Log.d("ewqewqewq","hello")
         return productApi.getAllProducts().products
     }
-
+    suspend fun getProductById(id:Int):Product{
+        return productApi.getProductById(id)
+    }
     companion object{
         var productRepositoryInstance:ProductRepository?=null
         fun getInstance(productApi: ProductApi):ProductRepository{

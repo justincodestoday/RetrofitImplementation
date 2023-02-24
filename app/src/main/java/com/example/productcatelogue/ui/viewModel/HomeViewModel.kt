@@ -7,15 +7,26 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.productcatelogue.data.model.Product
 import com.example.productcatelogue.data.repository.ProductRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repo: ProductRepository) : ViewModel() {
+class HomeViewModel(private val repo: ProductRepository) : BaseViewModel() {
     val products: MutableLiveData<List<Product>> = MutableLiveData()
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+        getProducts()
+    }
     fun getProducts() {
         viewModelScope.launch {
-            Log.d("ewqewqewq", "viewModel")
-            val res = repo.getAllProducts()
-            products.value=res
+//                val res = repo.getAllProducts()
+//                products.value = res
+                val res = safeApiCall{repo.getAllProducts()}
+            res?.let{
+                products.value=it
+            }
+//                val res = repo.getProductById(10)
+//                products.value= listOf(res
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.productcatelogue.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.productcatelogue.data.model.Product
 import com.example.productcatelogue.databinding.ProductLayoutBinding
 import com.example.productcatelogue.utils.update
@@ -22,6 +23,11 @@ class ProductAdapter(private var items: MutableList<Product>) :
             tvTitle.text=item.title
             tvPrice.text=item.price.toString()
             tvBrand.text=item.brand
+
+            Glide.with(holder.binding.root)
+                .load(item.thumbnail)
+                .into(ivImg)
+
 
         }
     }
