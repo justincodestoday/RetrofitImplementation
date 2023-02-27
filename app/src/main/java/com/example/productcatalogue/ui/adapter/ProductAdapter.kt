@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.productcatalogue.R
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.databinding.ItemProductLayoutBinding
-import com.example.productcatalogue.utils.update
+import com.example.productcatalogue.utils.Utils.update
 
 class ProductAdapter(private var products: List<Product>) :
     RecyclerView.Adapter<ProductAdapter.ProductHolder>() {
@@ -24,7 +24,7 @@ class ProductAdapter(private var products: List<Product>) :
         holder.binding.run {
             title.text = products.brand
             price.text = "RM " + products.price.toString()
-            name.text =  products.title
+            name.text = products.title
 
             Glide.with(holder.binding.root)
                 .load(products.thumbnail)
@@ -35,15 +35,24 @@ class ProductAdapter(private var products: List<Product>) :
         }
 
     }
+
     override fun getItemCount(): Int {
         return products.size
     }
 
     fun setProduct(products: MutableList<Product>) {
+        val oldItems = this.products
         this.products = products
-        update(emptyList(), products) { task1, task2 ->
-            task1.id == task2.id
+        if (oldItems.isEmpty()) {
+            update(emptyList(), products) { task1, task2 ->
+                task1.id == task2.id
+            }
+        } else {
+            update(oldItems, products) { task1, task2 ->
+                task1.id == task2.id
+            }
         }
+
     }
 
     class ProductHolder(val binding: ItemProductLayoutBinding) :

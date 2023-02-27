@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.productcatalogue.R
@@ -22,7 +24,7 @@ import kotlinx.coroutines.launch
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private lateinit var adapter : ProductAdapter
+    private lateinit var adapter: ProductAdapter
     override val viewModel: HomeViewModel by viewModels {
         HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
     }
@@ -34,16 +36,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupAdapter()
     }
 
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        setupAdapter()
+//    }
+
     override fun onBindData(view: View) {
         super.onBindData(view)
-        viewModel.products.observe(viewLifecycleOwner){
-//            Log.d("debugging", it.toString())
+
+        viewModel.products.observe(viewLifecycleOwner) {
             adapter.setProduct(it)
         }
-        binding?.febAdd?.setOnClickListener{
+
+
+        binding?.febAdd?.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToProductsFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            navController.navigate(action)
         }
+
+        setFragmentResultListener("from_add_product"){_,result ->
+            val refresh = result.getBoolean("refresh")
+            if(refresh){
+                viewModel.getProducts()
+            }
+        }
+
+
     }
 
     fun setupAdapter() {
