@@ -41,12 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             navController.navigate(R.id.addProductFragment)
         }
 
-        setFragmentResultListener("from_add_product") { _, result ->
-            val refresh = result.getBoolean("refresh")
-            if (refresh) {
-                viewModel.getProducts()
-            }
-        }
+        fragmentResultListener()
     }
 
     override fun onBindData(view: View) {
@@ -86,5 +81,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val layoutManager = GridLayoutManager(this.activity, 2)
         binding?.rvProducts?.adapter = adapter
         binding?.rvProducts?.layoutManager = layoutManager
+    }
+
+    private fun fragmentResultListener() {
+        setFragmentResultListener("from_add_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProducts()
+            }
+        }
+
+        setFragmentResultListener("from_update_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProducts()
+            }
+        }
     }
 }
