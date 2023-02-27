@@ -7,8 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="coral">#bc4749</color>
-    <color name="blue">#14213d</color>
-    <color name="app_bg">#FFDADB</color>
-    <color name="lightBlue">#8d99ae</color>
+    <color name="bg">#161e31</color>
+    <color name="accent">#f8b179</color>
+    <color name="text">#f4f5fc</color>
+    <color name="secondary">#2d3250</color>
+    <color name="tertiary">#6E77AE</color>
 </resources>

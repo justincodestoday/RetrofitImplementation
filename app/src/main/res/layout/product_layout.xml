@@ -47,6 +47,7 @@
 
         <ImageView
             android:id="@+id/iv_more"
+            android:clickable="true"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_gravity="bottom|end"

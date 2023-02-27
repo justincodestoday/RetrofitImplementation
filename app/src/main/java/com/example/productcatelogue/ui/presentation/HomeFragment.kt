@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.productcatelogue.R
@@ -27,58 +29,58 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
     }
     private lateinit var adapter: ProductAdapter
-    override fun getLayoutResource()= R.layout.fragment_home
+    override fun getLayoutResource() = R.layout.fragment_home
 
-    override fun onBindView(view:View,savedInstanceState: Bundle?){
+    override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
         setupAdapter()
+        fragmentResultListener()
+
+
         binding?.btnAdd?.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToAddFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            navController.navigate(action)
         }
     }
-    override fun onBindData(view: View){
+
+    override fun onBindData(view: View) {
         super.onBindData(view)
         viewModel.products.observe(viewLifecycleOwner) {
             adapter.setProduct(it)
         }
         lifecycleScope.launch {
-            viewModel.error.collect{
-                val snackbar = Snackbar.make(view,it, Snackbar.LENGTH_LONG)
+            viewModel.error.collect {
+                val snackbar = Snackbar.make(view, it, Snackbar.LENGTH_LONG)
                 snackbar.show()
             }
         }
 
-        viewModel.products.observe(viewLifecycleOwner){
-            Log.d("debugging",it.toString())
+        viewModel.products.observe(viewLifecycleOwner) {
+            Log.d("debugging", it.toString())
         }
     }
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        binding = FragmentHomeBinding.inflate(layoutInflater)
-//        return binding.root
-//    }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        viewModel.getProducts()
-//        setupAdapter()
-//        viewModel.products.observe(viewLifecycleOwner) {
-//            adapter.setProduct(it)
-//        }
-//        lifecycleScope.launch {
-//            viewModel.error.collect{
-//                val snackbar = Snackbar.make(binding.root,it, Snackbar.LENGTH_LONG)
-//                snackbar.show()
-//            }
-//        }
-//    }
+    fun fragmentResultListener() {
+        setFragmentResultListener("from_add_item") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProducts()
+            }
+        }
+        setFragmentResultListener("from_update_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProducts()
+            }
+        }
+    }
 
     fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
-        adapter = ProductAdapter(mutableListOf())
+        adapter = ProductAdapter(mutableListOf()) {
+            val action = HomeFragmentDirections.actionHomeFragmentToEditProductFragment(it.id!!)
+            navController.navigate(action)
+        }
         binding?.rvItems?.adapter = adapter
         binding?.rvItems?.layoutManager = layoutManager
     }

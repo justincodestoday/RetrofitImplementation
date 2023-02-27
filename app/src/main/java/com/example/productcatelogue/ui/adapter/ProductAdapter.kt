@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.productcatelogue.data.model.Product
 import com.example.productcatelogue.databinding.ProductLayoutBinding
-import com.example.productcatelogue.utils.update
+import com.example.productcatelogue.utils.Utils.update
 
-class ProductAdapter(private var items: MutableList<Product>) :
+class ProductAdapter(private var items: MutableList<Product>,val onClick: (item: Product) -> Unit) :
     RecyclerView.Adapter<ProductAdapter.ProductHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductHolder {
@@ -23,7 +23,9 @@ class ProductAdapter(private var items: MutableList<Product>) :
             tvTitle.text=item.title
             tvPrice.text=item.price.toString()
             tvBrand.text=item.brand
-
+            ivMore.setOnClickListener {
+                onClick(item)
+            }
             Glide.with(holder.binding.root)
                 .load(item.thumbnail)
                 .into(ivImg)
@@ -32,15 +34,22 @@ class ProductAdapter(private var items: MutableList<Product>) :
         }
     }
     fun setProduct(items: List<Product>) {
+        val oldItems = this.items
         this.items = items.toMutableList()
 //        notifyDataSetChanged()
 //        val oldItems = this.items
 //        this.items.clear()
 //        this.items.addAll(items)
-        update(emptyList(), items) { task1, task2 ->
-            task1.id == task2.id
-        }
+        if(oldItems.isEmpty()){
+            update(emptyList(), items) { task1, task2 ->
+                task1.id == task2.id
+            }
 
+        }else {
+            update(oldItems, items) { task1, task2 ->
+                task1.id == task2.id
+            }
+        }
     }
     override fun getItemCount()=items.size
 

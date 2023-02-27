@@ -8,10 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.viewbinding.ViewBinding
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.productcatelogue.ui.viewModel.BaseViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 abstract class BaseFragment<T:ViewDataBinding> : Fragment() {
@@ -19,6 +19,8 @@ abstract class BaseFragment<T:ViewDataBinding> : Fragment() {
     var binding:T?=null
 
     abstract fun getLayoutResource():Int
+    lateinit var navController: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,8 @@ abstract class BaseFragment<T:ViewDataBinding> : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         onBindView(view,savedInstanceState)
         onBindData(view)
+        navController= NavHostFragment.findNavController(this)
+
     }
 
     open fun onBindView(view: View, savedInstanceState: Bundle?){
