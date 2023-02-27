@@ -5,11 +5,19 @@ import com.fantasy.productcatalogue.data.model.Product
 
 class ProductRepository(private val productApi: ProductApi) {
     suspend fun getAllProducts(): List<Product> {
-        return productApi.getAllProducts().products
+        return productApi.getAllProducts()
     }
 
     suspend fun getProductsById(id: Int): Product {
         return productApi.getProductsById(id)
+    }
+
+    suspend fun addProduct(product: Product) {
+        return productApi.addProduct(product)
+    }
+
+    suspend fun updateProduct(id: Int, product: Product): Product {
+        return productApi.updateProduct(id, product)
     }
 
     companion object {

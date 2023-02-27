@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -40,11 +41,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-        viewModel.getProducts()
+//        viewModel.getProducts()
         setupAdapter()
         binding?.btnAdd?.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToAddProductFragment()
             NavHostFragment.findNavController(this).navigate(action)
+        }
+        setFragmentResultListener("from_add_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if(refresh) {
+                viewModel.getProducts()
+            }
+        }
+
+        setFragmentResultListener("from_update_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if(refresh) {
+                viewModel.getProducts()
+            }
         }
     }
 
@@ -73,7 +87,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 //    }
     private fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
-        adapter = ProductAdapter(mutableListOf())
+        adapter = ProductAdapter(mutableListOf()) {
+            val action = HomeFragmentDirections.actionHomeFragmentToUpdateProductFragment(it.id!!)
+            NavHostFragment.findNavController(this).navigate(action)
+        }
         binding?.rvProducts?.adapter = adapter
         binding?.rvProducts?.layoutManager = layoutManager
     }
