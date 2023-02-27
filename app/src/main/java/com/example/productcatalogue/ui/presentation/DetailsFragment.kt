@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.URLUtil
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
@@ -29,11 +31,21 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
         super.onBindView(view, savedInstanceState)
 
         val navArgs: DetailsFragmentArgs by navArgs()
-
-        viewModel.getProductById(navArgs.id)
+        val productId = navArgs.id
+        viewModel.getProductById(productId)
         binding!!.btnBack.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putBoolean("refresh", true)
+            setFragmentResult("from_details", bundle)
             NavHostFragment.findNavController(this).popBackStack()
         }
+
+        binding!!.btnEdit.setOnClickListener {
+            val action = DetailsFragmentDirections.actionDetailsToEditProduct(productId)
+            navController.navigate(action)
+        }
+
+        fragmentResultListener(productId)
     }
 
     override fun onBindData(view: View) {
@@ -53,11 +65,20 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
                 tvDiscount.text = discount
                 tvStock.text = stock
 
-                if (it.images.isNotEmpty() && URLUtil.isValidUrl(it.images[0])) {
-                    Glide.with(binding!!.root).load(it.images[0]).into(ivImage)
+                if (it.thumbnail.isNotEmpty() && URLUtil.isValidUrl(it.thumbnail)) {
+                    Glide.with(binding!!.root).load(it.thumbnail).into(ivImage)
                 } else {
                     Glide.with(binding!!.root).load(R.drawable.ic_empty_folder).into(ivImage)
                 }
+            }
+        }
+    }
+
+    private fun fragmentResultListener(productId: Int) {
+        setFragmentResultListener("from_edit_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProductById(productId)
             }
         }
     }

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.productcatalogue.R
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.databinding.ItemProductLayoutBinding
-import com.example.productcatalogue.utils.update
+import com.example.productcatalogue.utils.Utils.update
 
 class ProductAdapter(private var products: MutableList<Product>) :
     RecyclerView.Adapter<ProductAdapter.ItemProductHolder>() {
@@ -47,8 +47,9 @@ class ProductAdapter(private var products: MutableList<Product>) :
     override fun getItemCount(): Int = products.size
 
     fun setProducts(products: MutableList<Product>) {
+        val oldProducts = this.products
         this.products = products
-        update(mutableListOf(), this.products) { product1, product2 ->
+        update(oldProducts, products) { product1, product2 ->
             product1.id == product2.id
         }
     }

@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repo: ProductRepository) : BaseViewModel() {
     val products: MutableLiveData<MutableList<Product>> = MutableLiveData()
-//    val error2: MutableSharedFlow<String> = MutableSharedFlow()
 
     override fun onViewCreated() {
         super.onViewCreated()

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -35,8 +36,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupAdapter()
         binding!!.btnAdd.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeToAddProduct()
-            NavHostFragment.findNavController(this).navigate(action)
+            navController.navigate(action)
         }
+        fragmentResultListener()
     }
 
     override fun onBindData(view: View) {
@@ -46,12 +48,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    private fun fragmentResultListener() {
+        setFragmentResultListener("from_add_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProducts()
+            }
+        }
+
+        setFragmentResultListener("from_details") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProducts()
+            }
+        }
+    }
+
     private fun setupAdapter() {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         adapter = ProductAdapter(mutableListOf())
         adapter.listener = object : ProductAdapter.Listener {
             override fun onClick(product: Product) {
-                val action = HomeFragmentDirections.actionHomeToDetails(product.id)
+                val action = HomeFragmentDirections.actionHomeToDetails(product.id!!)
                 NavHostFragment.findNavController(this@HomeFragment).navigate(action)
             }
         }

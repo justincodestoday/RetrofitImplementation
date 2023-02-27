@@ -1,17 +1,17 @@
 package com.example.productcatalogue.data.model
 
 data class Product(
+    val id: Int?,
+    val title: String,
+    val description: String,
     val brand: String,
     val category: String,
-    val description: String,
-    val discountPercentage: Double,
-    val id: Int,
-    val images: List<String>,
-    val price: Int,
-    val rating: Double,
+    val price: Float,
     val stock: Int,
+    val discountPercentage: Float,
+    val rating: Float,
     val thumbnail: String,
-    val title: String
+    val images: List<String>? = null,
 )
 
 /*
