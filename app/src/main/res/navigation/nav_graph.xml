@@ -11,12 +11,12 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_addTaskFragment"
-            app:destination="@id/addTaskFragment" />
+            android:id="@+id/action_homeFragment_to_addProductFragment"
+            app:destination="@id/addProductFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addTaskFragment"
-        android:name="com.justin.productcatalog.ui.presentation.AddTaskFragment"
-        android:label="AddTaskFragment"
-        tools:layout="@layout/fragment_add_task" />
+        android:id="@+id/addProductFragment"
+        android:name="com.justin.productcatalog.ui.presentation.product.AddProductFragment"
+        android:label="AddProductFragment"
+        tools:layout="@layout/fragment_add_product" />
 </navigation>

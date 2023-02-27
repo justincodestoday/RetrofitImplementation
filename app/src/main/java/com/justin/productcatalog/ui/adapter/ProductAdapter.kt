@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.justin.productcatalog.R
 import com.justin.productcatalog.data.model.Product
 import com.justin.productcatalog.databinding.ItemLayoutProductBinding
-import com.justin.productcatalog.util.update
+import com.justin.productcatalog.util.Utils.update
 import java.util.concurrent.Executors
 
 class ProductAdapter(
@@ -22,9 +22,16 @@ class ProductAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     fun setProducts(items: List<Product>) {
+        val oldItems = this.items
         this.items = items as MutableList<Product>
-        update(emptyList(), items) { task1, task2 ->
-            task1.id == task2.id
+        if (oldItems.isEmpty()) {
+            update(emptyList(), items) { product1, product2 ->
+                product1.id == product2.id
+            }
+        } else {
+            update(oldItems, items) { product1, product2 ->
+                product1.id == product2.id
+            }
         }
     }
 

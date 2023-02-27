@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.AddTaskFragment">
+        tools:context=".ui.AddProductFragment">
 
         <TextView
             android:id="@+id/tvHeader"
@@ -15,7 +15,7 @@
             android:background="@color/app_bg"
             android:elevation="10dp"
             android:gravity="center"
-            android:text="Add a New Task"
+            android:text="Add a New Product"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -34,24 +34,13 @@
             app:layout_constraintGuide_percent="0.1"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/tvBrand"
-            style="@style/Task.Header.Black"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Enter a brand here:"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline" />
-
         <EditText
             android:id="@+id/etBrand"
             style="@style/Edit.Text.Fill"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/edit_text"
             android:gravity="top"
             android:hint="Brand"
@@ -59,16 +48,20 @@
             android:textColorHint="@color/gray_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvBrand" />
+            app:layout_constraintTop_toBottomOf="@id/guideline" />
 
-        <TextView
-            android:id="@+id/tvTitle"
-            style="@style/Task.Header.Black"
+        <EditText
+            android:id="@+id/etCategory"
+            style="@style/Edit.Text.Fill"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
-            android:text="Enter title here:"
+            android:background="@drawable/edit_text"
+            android:gravity="top"
+            android:hint="Category"
+            android:inputType="text"
+            android:textColorHint="@color/gray_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etBrand" />
@@ -79,56 +72,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/edit_text"
             android:gravity="top"
             android:hint="Title"
-            android:inputType="textMultiLine"
-            android:maxLines="2"
-            android:minLines="2"
+            android:inputType="text"
             android:textColorHint="@color/gray_500"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
-
-        <TextView
-            android:id="@+id/tvCategory"
-            style="@style/Task.Header.Black"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Enter category here:"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etTitle" />
-
-        <EditText
-            android:id="@+id/etCategory"
-            style="@style/Edit.Text.MultiLine.Fill"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/edit_text"
-            android:gravity="top"
-            android:hint="Category"
-            android:inputType="textMultiLine"
-            android:maxLines="2"
-            android:minLines="2"
-            android:textColorHint="@color/gray_500"
-            app:layout_constraintBottom_toTopOf="@id/tvDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCategory" />
-
-        <TextView
-            android:id="@+id/tvDescription"
-            style="@style/Task.Header.Black"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Enter description here:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etCategory" />
@@ -137,18 +86,91 @@
             android:id="@+id/etDescription"
             style="@style/Edit.Text.MultiLine.Fill"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/edit_text"
             android:gravity="top"
             android:hint="Description"
-            android:inputType="textMultiLine"
+            android:inputType="text"
             android:textColorHint="@color/gray_500"
-            app:layout_constraintBottom_toTopOf="@id/btnSave"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+            app:layout_constraintTop_toBottomOf="@id/etTitle" />
+
+        <LinearLayout
+            android:id="@+id/llPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etDescription">
+
+            <EditText
+                android:id="@+id/etPrice"
+                style="@style/Edit.Text.MultiLine.Fill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/edit_text"
+                android:gravity="top"
+                android:hint="Price"
+                android:inputType="number"
+                android:textColorHint="@color/gray_500" />
+
+            <EditText
+                android:id="@+id/etDiscount"
+                style="@style/Edit.Text.MultiLine.Fill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@drawable/edit_text"
+                android:gravity="top"
+                android:hint="Discount"
+                android:inputType="number"
+                android:textColorHint="@color/gray_500" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llNumbers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llPrice">
+
+            <EditText
+                android:id="@+id/etRating"
+                style="@style/Edit.Text.MultiLine.Fill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/edit_text"
+                android:gravity="top"
+                android:hint="Rating"
+                android:inputType="number"
+                android:textColorHint="@color/gray_500" />
+
+            <EditText
+                android:id="@+id/etStock"
+                style="@style/Edit.Text.MultiLine.Fill"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@drawable/edit_text"
+                android:gravity="top"
+                android:hint="Stock"
+                android:inputType="number"
+                android:textColorHint="@color/gray_500" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnSave"

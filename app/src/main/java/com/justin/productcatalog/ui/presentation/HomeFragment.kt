@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -36,8 +37,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupAdapter()
 
         binding?.btnAdd?.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToAddTaskFragment()
-            NavHostFragment.findNavController(this).navigate(action)
+            navController.navigate(R.id.addProductFragment)
+        }
+
+        setFragmentResultListener("from_add_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProducts()
+            }
         }
     }
 
