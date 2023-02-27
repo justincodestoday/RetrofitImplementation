@@ -1,37 +1,30 @@
-package com.example.productcatalogue.ui.viewModel
+package com.example.productcatalogue.ui.presentation.product.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
+import com.example.productcatalogue.ui.viewModel.BaseViewModel
 import com.example.productcatalogue.utils.Utils.validate
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
-class AddProductViewModel(private val repo: ProductRepository) : BaseViewModel() {
+class AddProductViewModel(repo: ProductRepository) : BaseProductViewModel(repo) {
 
     fun addProduct(
-        title: String,
-        desc: String,
-        price: String,
-        disc: String,
-        rating: String,
-        stock: String,
-        brand: String,
-        cat: String,
+        prod: Product
     ) {
         val validationStatus = validate(
-            title, desc, price, disc, rating, stock, brand, cat
+            prod.title, prod.description, prod.price.toString(),
+            prod.discountPercentage.toString(), prod.rating.toString(),
+            prod.stock.toString(), prod.brand, prod.category
         )
         viewModelScope.launch {
             if (validationStatus) {
-                val product = Product(
-                    null, title, brand, cat, desc,
-                    price.toFloat(), disc.toFloat(),
-                    rating.toFloat(), stock.toInt(), ""
-                )
 
-                repo.addProduct(product)
+                safeApiCall { repo.addProduct(prod) }
+                finish.emit(Unit)
 
             } else {
 
