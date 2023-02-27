@@ -16,7 +16,8 @@ import com.justin.productcatalog.util.Utils.update
 import java.util.concurrent.Executors
 
 class ProductAdapter(
-    private var items: MutableList<Product>
+    private var items: MutableList<Product>,
+    val onClick: (product: Product) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ProductHolder>() {
     class ProductHolder(val binding: ItemLayoutProductBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -69,6 +70,13 @@ class ProductAdapter(
 //                    e.printStackTrace()
 //                }
 //            }
+
+            cvProductItem.setOnClickListener {
+                onClick(item)
+            }
         }
     }
 }
+
+// study Interceptor
+// and Dagger-Hilt2

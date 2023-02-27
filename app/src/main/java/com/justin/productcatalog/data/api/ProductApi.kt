@@ -22,5 +22,5 @@ interface ProductApi {
     suspend fun addProduct(@Body product: Product)
 
     @PUT("/products/{id}")
-    suspend fun updateProduct(@Path("id") @Body product: Product)
+    suspend fun updateProduct(@Path("id") id: Int, @Body product: Product): Product
 }

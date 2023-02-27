@@ -55,7 +55,7 @@ class AddProductFragment : BaseProductFragment() {
         super.onBindData(view)
 
         lifecycleScope.launch {
-            viewModel.completeAdd.collect {
+            viewModel.finish.collect {
                 val bundle = Bundle()
                 bundle.putBoolean("refresh", true)
                 setFragmentResult("from_add_product", bundle)

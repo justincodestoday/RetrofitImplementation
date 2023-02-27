@@ -10,8 +10,8 @@ import com.justin.productcatalog.util.Utils.validate
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
-class AddProductViewModel(private val productRepo: ProductRepository) : BaseProductViewModel() {
-    val completeAdd: MutableSharedFlow<Unit> = MutableSharedFlow()
+class AddProductViewModel(productRepo: ProductRepository) : BaseProductViewModel(productRepo) {
+//    val completeAdd: MutableSharedFlow<Unit> = MutableSharedFlow()
 
     fun addProduct(
         product: Product
@@ -48,7 +48,7 @@ class AddProductViewModel(private val productRepo: ProductRepository) : BaseProd
         viewModelScope.launch {
             if (validationStatus) {
                 safeApiCall { productRepo.addProduct(product) }
-                completeAdd.emit(Unit)
+                finish.emit(Unit)
 
 //                val _product =
 //                    Product(
@@ -70,7 +70,7 @@ class AddProductViewModel(private val productRepo: ProductRepository) : BaseProd
         }
     }
 
-    class Provider(val productRepo: ProductRepository) : ViewModelProvider.Factory {
+    class Provider(private val productRepo: ProductRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return AddProductViewModel(productRepo) as T
         }

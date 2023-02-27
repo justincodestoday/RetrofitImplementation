@@ -17,9 +17,9 @@ class ProductRepository(private val productApi: ProductApi) {
         return productApi.addProduct(product)
     }
 
-//    suspend fun updateProduct(id: Int, product: Product) {
-//        return productApi.updateProduct(id, product)
-//    }
+    suspend fun updateProduct(id: Int, product: Product): Product {
+        return productApi.updateProduct(id, product)
+    }
 
     companion object {
         var productRepositoryInstance: ProductRepository? = null

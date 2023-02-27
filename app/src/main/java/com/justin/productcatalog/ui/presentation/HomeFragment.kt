@@ -16,6 +16,7 @@ import com.justin.productcatalog.MyApplication
 import com.justin.productcatalog.R
 import com.justin.productcatalog.databinding.FragmentHomeBinding
 import com.justin.productcatalog.ui.adapter.ProductAdapter
+import com.justin.productcatalog.ui.presentation.product.UpdateProductFragment
 import com.justin.productcatalog.ui.viewModel.HomeViewModel
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collect
@@ -76,7 +77,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 //    }
 
     private fun setupAdapter() {
-        adapter = ProductAdapter(mutableListOf())
+        adapter = ProductAdapter(
+            mutableListOf()
+        ) {
+            val action = HomeFragmentDirections.actionHomeFragmentToUpdateProductFragment(it.id!!)
+            navController.navigate(action)
+        }
         val layoutManager = GridLayoutManager(this.activity, 2)
         binding?.rvProducts?.adapter = adapter
         binding?.rvProducts?.layoutManager = layoutManager
