@@ -13,6 +13,6 @@ data class Product(
     val discountPercentage: Float,
     val rating: Float,
     val stock: Int,
-    val thumbnail: String,
+    val thumbnail: String? = null,
     val images: List<String>? = null
 )

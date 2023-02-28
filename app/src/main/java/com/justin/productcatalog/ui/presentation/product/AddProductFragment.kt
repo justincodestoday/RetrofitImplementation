@@ -12,6 +12,8 @@ import com.justin.productcatalog.data.repository.ProductRepository
 import com.justin.productcatalog.databinding.FragmentAddProductBinding
 import com.justin.productcatalog.ui.presentation.BaseFragment
 import com.justin.productcatalog.ui.presentation.product.viewModel.AddProductViewModel
+import com.justin.productcatalog.util.Utils
+import com.justin.productcatalog.util.Utils.validate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

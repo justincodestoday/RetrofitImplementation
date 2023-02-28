@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.justin.productcatalog.R
 import com.justin.productcatalog.data.model.Product
 import com.justin.productcatalog.databinding.FragmentAddProductBinding
 import com.justin.productcatalog.ui.presentation.BaseFragment
+import com.justin.productcatalog.util.Utils.validate
+import kotlinx.coroutines.launch
 
 abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
     override fun getLayoutResource(): Int = R.layout.fragment_add_product
@@ -23,6 +26,24 @@ abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
             val discount = etDiscount.text.toString()
             val rating = etRating.text.toString()
             val stock = etStock.text.toString()
+
+            val validationStatus =
+                validate(
+                brand,
+                category,
+                title,
+                description,
+                price,
+                discount,
+                rating,
+                stock
+            )
+            if (!validationStatus) {
+                lifecycleScope.launch {
+                    viewModel.error.emit("Please fill all the fields")
+                }
+                return null
+            }
             Product(
                 null,
                 brand,
@@ -32,9 +53,7 @@ abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
                 price.toFloat(),
                 discount.toFloat(),
                 rating.toFloat(),
-                stock.toInt(),
-                "",
-                null
+                stock.toInt()
             )
         }
     }

@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UpdateProductViewModel @Inject constructor(productRepo: ProductRepository) : BaseProductViewModel(productRepo) {
+class UpdateProductViewModel @Inject constructor(productRepo: ProductRepository) :
+    BaseProductViewModel(productRepo) {
     val product: MutableLiveData<Product> = MutableLiveData()
 
     fun getProductById(id: String) {
@@ -43,24 +44,10 @@ class UpdateProductViewModel @Inject constructor(productRepo: ProductRepository)
         id: String,
         product: Product
     ) {
-        val validationStatus = Utils.validate(
-            product.brand,
-            product.category,
-            product.title,
-            product.description,
-            product.price.toString(),
-            product.discountPercentage.toString(),
-            product.rating.toString(),
-            product.stock.toString(),
-        )
         viewModelScope.launch {
             try {
-                if (validationStatus) {
-                    safeApiCall { productRepo.updateProduct(id, product) }
-                    finish.emit(Unit)
-                } else {
-                    error.emit("Please fill in every detail")
-                }
+                safeApiCall { productRepo.updateProduct(id, product) }
+                finish.emit(Unit)
             } catch (e: Exception) {
                 error.emit(e.message.toString())
             }

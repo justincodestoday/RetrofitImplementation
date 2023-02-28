@@ -58,10 +58,7 @@ class UpdateProductFragment : BaseProductFragment() {
                 }
 
                 btnDelete.setOnClickListener {
-                    val product = getProduct()
-                    product?.let {
-                        viewModel.deleteProduct(args.id)
-                    }
+                    viewModel.deleteProduct(args.id)
                 }
             }
         }

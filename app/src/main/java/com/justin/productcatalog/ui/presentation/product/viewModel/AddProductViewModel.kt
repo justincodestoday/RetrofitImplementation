@@ -29,16 +29,7 @@ class AddProductViewModel @Inject constructor(productRepo: ProductRepository) :
 //        stock: String,
 ////        thumbnail: String
     ) {
-        val validationStatus = validate(
-            product.brand,
-            product.category,
-            product.title,
-            product.description,
-            product.price.toString(),
-            product.discountPercentage.toString(),
-            product.rating.toString(),
-            product.stock.toString(),
-
+//        val validationStatus = validate(
 //            brand,
 //            category,
 //            title,
@@ -47,31 +38,30 @@ class AddProductViewModel @Inject constructor(productRepo: ProductRepository) :
 //            discount,
 //            rating,
 //            stock,
-////            thumbnail
-        )
+//            thumbnail
+//        )
         viewModelScope.launch {
             try {
-                if (validationStatus) {
-                    safeApiCall { productRepo.addProduct(product) }
-                    finish.emit(Unit)
-
-//                val _product =
-//                    Product(
-//                        null,
-//                        brand,
-//                        category,
-//                        title,
-//                        description,
-//                        price.toFloat(),
-//                        discount.toFloat(),
-//                        rating.toFloat(),
-//                        stock.toInt(),
-//                        "",
-//                        null
-//                    )
-                } else {
-                    error.emit("Please fill in every detail")
-                }
+                safeApiCall { productRepo.addProduct(product) }
+                finish.emit(Unit)
+//                if (validationStatus) {
+//                    val _product =
+//                        Product(
+//                            null,
+//                            brand,
+//                            category,
+//                            title,
+//                            description,
+//                            price.toFloat(),
+//                            discount.toFloat(),
+//                            rating.toFloat(),
+//                            stock.toInt(),
+//                            "",
+//                            null
+//                        )
+//                } else {
+//                    error.emit("Please fill in every detail")
+//                }
             } catch (e: Exception) {
                 error.emit(e.message.toString())
             }
