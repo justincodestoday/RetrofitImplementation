@@ -7,10 +7,14 @@ import com.justin.productcatalog.data.model.Product
 import com.justin.productcatalog.data.repository.ProductRepository
 import com.justin.productcatalog.ui.viewModel.BaseViewModel
 import com.justin.productcatalog.util.Utils.validate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddProductViewModel(productRepo: ProductRepository) : BaseProductViewModel(productRepo) {
+@HiltViewModel
+class AddProductViewModel @Inject constructor(productRepo: ProductRepository) :
+    BaseProductViewModel(productRepo) {
 //    val completeAdd: MutableSharedFlow<Unit> = MutableSharedFlow()
 
     fun addProduct(
@@ -46,9 +50,10 @@ class AddProductViewModel(productRepo: ProductRepository) : BaseProductViewModel
 ////            thumbnail
         )
         viewModelScope.launch {
-            if (validationStatus) {
-                safeApiCall { productRepo.addProduct(product) }
-                finish.emit(Unit)
+            try {
+                if (validationStatus) {
+                    safeApiCall { productRepo.addProduct(product) }
+                    finish.emit(Unit)
 
 //                val _product =
 //                    Product(
@@ -64,15 +69,18 @@ class AddProductViewModel(productRepo: ProductRepository) : BaseProductViewModel
 //                        "",
 //                        null
 //                    )
-            } else {
-                error.emit("Please fill in every detail")
+                } else {
+                    error.emit("Please fill in every detail")
+                }
+            } catch (e: Exception) {
+                error.emit(e.message.toString())
             }
         }
     }
 
-    class Provider(private val productRepo: ProductRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AddProductViewModel(productRepo) as T
-        }
-    }
+//    class Provider(private val productRepo: ProductRepository) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return AddProductViewModel(productRepo) as T
+//        }
+//    }
 }

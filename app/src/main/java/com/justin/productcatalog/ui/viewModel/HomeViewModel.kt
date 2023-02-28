@@ -7,10 +7,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.justin.productcatalog.data.model.Product
 import com.justin.productcatalog.data.repository.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val productRepo: ProductRepository) : BaseViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val productRepo: ProductRepository) :
+    BaseViewModel() {
     val products: MutableLiveData<MutableList<Product>> = MutableLiveData()
     val product: MutableLiveData<Product> = MutableLiveData()
 //    val error: MutableSharedFlow<String> = MutableSharedFlow()
@@ -40,8 +44,12 @@ class HomeViewModel(private val productRepo: ProductRepository) : BaseViewModel(
 
     fun getProducts() {
         viewModelScope.launch {
-            val res = safeApiCall { productRepo.getAllProducts() }
-            products.value = res as MutableList<Product>
+            try{
+                val res = safeApiCall { productRepo.getAllProducts() }
+                products.value = res as MutableList<Product>
+            } catch (e: Exception) {
+                error.emit(e.message.toString())
+            }
         }
     }
 
@@ -57,7 +65,7 @@ class HomeViewModel(private val productRepo: ProductRepository) : BaseViewModel(
 //        }
 //    }
 
-    fun getProductById(id: Int) {
+    fun getProductById(id: String) {
         viewModelScope.launch {
             try {
                 val res = productRepo.getProductById(id)
@@ -72,9 +80,9 @@ class HomeViewModel(private val productRepo: ProductRepository) : BaseViewModel(
         }
     }
 
-    class Provider(val productRepo: ProductRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return HomeViewModel(productRepo) as T
-        }
-    }
+//    class Provider(val productRepo: ProductRepository) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return HomeViewModel(productRepo) as T
+//        }
+//    }
 }

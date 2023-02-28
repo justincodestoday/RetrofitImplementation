@@ -14,27 +14,30 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.justin.productcatalog.MyApplication
 import com.justin.productcatalog.R
+import com.justin.productcatalog.data.api.RetrofitClient
+import com.justin.productcatalog.data.repository.ProductRepository
 import com.justin.productcatalog.databinding.FragmentHomeBinding
 import com.justin.productcatalog.ui.adapter.ProductAdapter
 import com.justin.productcatalog.ui.presentation.product.UpdateProductFragment
 import com.justin.productcatalog.ui.viewModel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var adapter: ProductAdapter
 
-    override val viewModel: HomeViewModel by viewModels {
-        HomeViewModel.Provider((requireActivity().application as MyApplication).productRepository)
-    }
+    override val viewModel: HomeViewModel by viewModels()
+//    {
+//        HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
+//    }
 
     override fun getLayoutResource() = R.layout.fragment_home
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-//        binding?.lifecycleOwner = viewLifecycleOwner
-//        binding?.viewModel = viewModel
         setupAdapter()
 
         binding?.btnAdd?.setOnClickListener {

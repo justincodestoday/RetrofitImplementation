@@ -7,15 +7,20 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.justin.productcatalog.MyApplication
 import com.justin.productcatalog.R
+import com.justin.productcatalog.data.api.RetrofitClient
+import com.justin.productcatalog.data.repository.ProductRepository
 import com.justin.productcatalog.databinding.FragmentAddProductBinding
 import com.justin.productcatalog.ui.presentation.BaseFragment
 import com.justin.productcatalog.ui.presentation.product.viewModel.AddProductViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AddProductFragment : BaseProductFragment() {
-    override val viewModel: AddProductViewModel by viewModels {
-        AddProductViewModel.Provider((requireActivity().application as MyApplication).productRepository)
-    }
+    override val viewModel: AddProductViewModel by viewModels()
+//    {
+//        AddProductViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
+//    }
 
 //    override fun getLayoutResource() = R.layout.fragment_add_product
 
