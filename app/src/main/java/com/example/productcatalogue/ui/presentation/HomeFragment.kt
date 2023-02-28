@@ -21,12 +21,15 @@ import com.example.productcatalogue.ui.adapter.ProductAdapter
 import com.example.productcatalogue.ui.viewModel.BaseViewModel
 import com.example.productcatalogue.ui.viewModel.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    override val viewModel: HomeViewModel by viewModels {
-        HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
-    }
+//    override val viewModel: HomeViewModel by viewModels {
+//        HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
+//    }
+    override val viewModel: HomeViewModel by viewModels()
     private lateinit var adapter: ProductAdapter
 
     override fun getLayoutResource() = R.layout.fragment_home

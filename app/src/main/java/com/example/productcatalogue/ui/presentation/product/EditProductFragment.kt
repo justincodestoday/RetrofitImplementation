@@ -10,13 +10,16 @@ import com.example.productcatalogue.data.api.RetrofitClient
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.ui.presentation.product.viewModel.EditProductViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class EditProductFragment : BaseProductFragment() {
-    override val viewModel: EditProductViewModel by viewModels {
-        EditProductViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
-    }
+//    override val viewModel: EditProductViewModel by viewModels {
+//        EditProductViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
+//    }
 
+    override val viewModel: EditProductViewModel by viewModels()
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
         val navArgs: EditProductFragmentArgs by navArgs()

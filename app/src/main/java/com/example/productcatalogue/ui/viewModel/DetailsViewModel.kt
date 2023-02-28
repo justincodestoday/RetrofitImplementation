@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailsViewModel(private val repo: ProductRepository) : BaseViewModel() {
+@HiltViewModel
+class DetailsViewModel @Inject constructor(private val repo: ProductRepository) : BaseViewModel() {
     val product: MutableLiveData<Product> = MutableLiveData()
 
-    fun getProductById(id: Int) {
+    fun getProductById(id: String) {
         viewModelScope.launch {
             val res = safeApiCall { repo.getProductById(id) }
             res?.let {
@@ -20,9 +23,15 @@ class DetailsViewModel(private val repo: ProductRepository) : BaseViewModel() {
         }
     }
 
-    class Provider(private val repo: ProductRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return DetailsViewModel(repo) as T
+    fun deleteProduct(id: String) {
+        viewModelScope.launch {
+            val res = safeApiCall { repo.deleteProduct(id) }
         }
     }
+
+//    class Provider(private val repo: ProductRepository) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return DetailsViewModel(repo) as T
+//        }
+//    }
 }

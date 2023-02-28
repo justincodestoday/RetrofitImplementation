@@ -6,22 +6,31 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.productcatalogue.data.api.RetrofitClient
+import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.ui.presentation.product.viewModel.AddProductViewModel
+import com.example.productcatalogue.ui.presentation.product.viewModel.EditProductViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AddProductFragment : BaseProductFragment() {
-    override val viewModel: AddProductViewModel by viewModels {
-        AddProductViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
-    }
+    //    override val viewModel: AddProductViewModel by viewModels {
+//        AddProductViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
+//    }
+    override val viewModel: AddProductViewModel by viewModels()
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
         binding!!.run {
             btnAdd.setOnClickListener {
                 val product = getProduct()
-                product.let {
-                    viewModel.addProduct(it)
+                if (product !== null) {
+                    product.let {
+                        viewModel.addProduct(it)
+                    }
+                } else {
+                    viewModel.validateFail()
                 }
             }
         }

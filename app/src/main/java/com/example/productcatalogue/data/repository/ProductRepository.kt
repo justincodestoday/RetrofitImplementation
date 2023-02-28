@@ -8,7 +8,7 @@ class ProductRepository(private val productApi: ProductApi) {
         return productApi.getAllProducts()
     }
 
-    suspend fun getProductById(id: Int): Product {
+    suspend fun getProductById(id: String): Product {
         return productApi.getProductById(id)
     }
 
@@ -16,17 +16,21 @@ class ProductRepository(private val productApi: ProductApi) {
         return productApi.addProduct(product)
     }
 
-    suspend fun editProduct(id: Int, product: Product): Product {
+    suspend fun editProduct(id: String, product: Product): Product {
         return productApi.editProduct(id, product)
     }
 
-    companion object {
-        var productRepositoryInstance: ProductRepository? = null
-        fun getInstance(productApi: ProductApi): ProductRepository {
-            if (productRepositoryInstance == null) {
-                productRepositoryInstance = ProductRepository(productApi)
-            }
-            return productRepositoryInstance!!
-        }
+    suspend fun deleteProduct(id: String) {
+        return productApi.deleteProduct(id)
     }
+
+//    companion object {
+//        var productRepositoryInstance: ProductRepository? = null
+//        fun getInstance(productApi: ProductApi): ProductRepository {
+//            if (productRepositoryInstance == null) {
+//                productRepositoryInstance = ProductRepository(productApi)
+//            }
+//            return productRepositoryInstance!!
+//        }
+//    }
 }

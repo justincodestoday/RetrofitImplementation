@@ -3,6 +3,7 @@ package com.example.productcatalogue.data.api
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.model.ProductsResponse
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -14,7 +15,7 @@ interface ProductApi {
 
     @GET("/products/{id}")
     suspend fun getProductById(
-        @Path("id") searchById: Int
+        @Path("id") id: String
     ): Product
 
     @POST("/products")
@@ -22,7 +23,12 @@ interface ProductApi {
 
     @PUT("/products/{id}")
     suspend fun editProduct(
-        @Path("id") searchById: Int,
+        @Path("id") id: String,
         @Body product: Product
     ): Product
+
+    @DELETE("/products/{id}")
+    suspend fun deleteProduct(
+        @Path("id") id: String
+    )
 }

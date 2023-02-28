@@ -8,7 +8,7 @@ import com.example.productcatalogue.ui.presentation.BaseFragment
 abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
     override fun getLayoutResource(): Int = R.layout.fragment_add_product
 
-    fun getProduct(): Product {
+    fun getProduct(): Product? {
         return binding!!.run {
             val title = etTitle.text.toString()
             val description = etDescription.text.toString()
@@ -18,6 +18,11 @@ abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
             val stock = etPrice.text.toString()
             val discount = etDiscount.text.toString()
             val rating = etRating.text.toString()
+
+            if (price.isEmpty() || stock.isEmpty() || discount.isEmpty() || rating.isEmpty()) {
+                return null
+            }
+
             Product(
                 null,
                 title,

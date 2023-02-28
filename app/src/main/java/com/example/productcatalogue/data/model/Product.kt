@@ -1,7 +1,10 @@
 package com.example.productcatalogue.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Product(
-    val id: Int?,
+    @SerializedName("_id")
+    val id: String?,
     val title: String,
     val description: String,
     val brand: String,

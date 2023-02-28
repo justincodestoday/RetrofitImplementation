@@ -7,13 +7,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.utils.Utils.validate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EditProductViewModel(repo: ProductRepository) : BaseProductViewModel(repo) {
+@HiltViewModel
+class EditProductViewModel @Inject constructor(repo: ProductRepository) :
+    BaseProductViewModel(repo) {
     val product: MutableLiveData<Product> = MutableLiveData()
 
     fun editProduct(
-        id: Int,
+        id: String,
         product: Product
     ) {
         val validationStatus = validate(
@@ -36,7 +40,7 @@ class EditProductViewModel(repo: ProductRepository) : BaseProductViewModel(repo)
         }
     }
 
-    fun getProductById(id: Int) {
+    fun getProductById(id: String) {
         viewModelScope.launch {
             val res = safeApiCall { repo.getProductById(id) }
             res?.let {
@@ -45,9 +49,9 @@ class EditProductViewModel(repo: ProductRepository) : BaseProductViewModel(repo)
         }
     }
 
-    class Provider(private val repo: ProductRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return EditProductViewModel(repo) as T
-        }
-    }
+//    class Provider(private val repo: ProductRepository) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return EditProductViewModel(repo) as T
+//        }
+//    }
 }

@@ -201,6 +201,7 @@
                         android:textSize="18sp" />
                 </LinearLayout>
 
+
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                     android:id="@+id/btn_back"
                     android:layout_width="wrap_content"
@@ -208,12 +209,27 @@
                     android:layout_below="@id/stock_container"
                     android:layout_alignParentStart="true"
                     android:layout_margin="16dp"
-                    android:backgroundTint="#E91E63"
+                    android:backgroundTint="#FF8F00"
                     android:contentDescription="Back Button"
                     android:gravity="center"
                     android:minWidth="48dp"
                     android:minHeight="48dp"
                     app:icon="@drawable/ic_back"
+                    app:iconTint="@color/white" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/btn_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/stock_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="16dp"
+                    android:backgroundTint="#FA1C1C"
+                    android:contentDescription="Delete Button"
+                    android:gravity="center"
+                    android:minWidth="48dp"
+                    android:minHeight="48dp"
+                    app:icon="@drawable/ic_delete"
                     app:iconTint="@color/white" />
 
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
