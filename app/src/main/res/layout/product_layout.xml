@@ -43,15 +43,26 @@
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="end"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_more"
+                    android:clickable="true"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="bottom|end"
+                    android:src="@drawable/ic_more_vert" />
+                <ImageView
+                    android:id="@+id/iv_delete"
+                    android:clickable="true"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="bottom|end"
+                    android:src="@drawable/ic_delete" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/iv_more"
-            android:clickable="true"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="bottom|end"
-            android:src="@drawable/ic_more_vert" />
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 </layout>

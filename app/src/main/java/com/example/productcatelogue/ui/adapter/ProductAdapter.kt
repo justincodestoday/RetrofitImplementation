@@ -8,7 +8,8 @@ import com.example.productcatelogue.data.model.Product
 import com.example.productcatelogue.databinding.ProductLayoutBinding
 import com.example.productcatelogue.utils.Utils.update
 
-class ProductAdapter(private var items: MutableList<Product>,val onClick: (item: Product) -> Unit) :
+class ProductAdapter(private var items: MutableList<Product>,val onClick: (item: Product) -> Unit,
+val onClick2:(item:Product)->Unit) :
     RecyclerView.Adapter<ProductAdapter.ProductHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductHolder {
@@ -25,6 +26,9 @@ class ProductAdapter(private var items: MutableList<Product>,val onClick: (item:
             tvBrand.text=item.brand
             ivMore.setOnClickListener {
                 onClick(item)
+            }
+            ivDelete.setOnClickListener {
+                onClick2(item)
             }
             Glide.with(holder.binding.root)
                 .load(item.thumbnail)

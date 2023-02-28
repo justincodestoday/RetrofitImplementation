@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 
 abstract class BaseViewModel: ViewModel() {
     val error: MutableSharedFlow<String> = MutableSharedFlow()
-
+    val finishFromDelete:MutableSharedFlow<Unit> = MutableSharedFlow()
     open fun onViewCreated(){}
     suspend fun <T> safeApiCall(apiCall:suspend ()->T):T?{
         return try{

@@ -7,11 +7,13 @@ import com.example.productcatelogue.data.model.Product
 import com.example.productcatelogue.data.repository.ProductRepository
 import com.example.productcatelogue.ui.viewModel.BaseViewModel
 import com.example.productcatelogue.utils.Utils.validate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class AddViewModel(repo: ProductRepository) : BaseProductViewModel(repo) {
+@HiltViewModel
+class AddViewModel @Inject constructor(repo: ProductRepository) : BaseProductViewModel(repo) {
 
     fun addProduct(
         product: Product

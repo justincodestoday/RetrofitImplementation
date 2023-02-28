@@ -7,10 +7,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.productcatelogue.data.model.Product
 import com.example.productcatelogue.data.repository.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val repo: ProductRepository) : BaseViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repo: ProductRepository) : BaseViewModel() {
     val products: MutableLiveData<List<Product>> = MutableLiveData()
 
     override fun onViewCreated() {
@@ -29,10 +32,16 @@ class HomeViewModel(private val repo: ProductRepository) : BaseViewModel() {
 //                products.value= listOf(res
         }
     }
-
-    class Provider(private val repo: ProductRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return HomeViewModel(repo) as T
+    fun deleteProducts(id:String){
+        viewModelScope.launch {
+            repo.deleteProduct(id)
+            finishFromDelete.emit(Unit)
         }
     }
+
+//    class Provider(private val repo: ProductRepository) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return HomeViewModel(repo) as T
+//        }
+//    }
 }

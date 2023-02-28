@@ -8,12 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.productcatelogue.data.model.Product
 import com.example.productcatelogue.data.repository.ProductRepository
 import com.example.productcatelogue.utils.Utils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EditProductViewModel(repo: ProductRepository) : BaseProductViewModel(repo) {
+@HiltViewModel
+class EditProductViewModel @Inject constructor(repo: ProductRepository) : BaseProductViewModel(repo) {
     val product: MutableLiveData<Product> = MutableLiveData()
 
-    fun getProductById(id: Int) {
+    fun getProductById(id: String) {
 
         viewModelScope.launch {
             Log.d("ewqewq","ewqewqewq")
@@ -25,7 +28,7 @@ class EditProductViewModel(repo: ProductRepository) : BaseProductViewModel(repo)
     }
 
     fun updateProduct(
-        id: Int,
+        id: String,
         product: Product
     ) {
         val validationStatus = Utils.validate(
