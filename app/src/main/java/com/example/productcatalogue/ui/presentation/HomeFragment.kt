@@ -7,17 +7,14 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.productcatalogue.R
 import com.example.productcatalogue.ui.adapter.ProductAdapter
-import com.example.productcatalogue.data.api.RetrofitClient
-import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.databinding.FragmentHomeBinding
 import com.example.productcatalogue.ui.viewModel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var adapter: ProductAdapter
-    override val viewModel: HomeViewModel by viewModels {
-        HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
-    }
+    override val viewModel: HomeViewModel by viewModels()
 
     override fun getLayoutResource() = R.layout.fragment_home
 
@@ -65,7 +62,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = ProductAdapter(mutableListOf()) {
-            val action = HomeFragmentDirections.actionHomeFragmentToEditProductFragment(it.id!!.toInt())
+            val action = HomeFragmentDirections.actionHomeFragmentToEditProductFragment(it.id!!.toString())
             navController.navigate(action)
         }
         binding?.rvProducts?.adapter = adapter

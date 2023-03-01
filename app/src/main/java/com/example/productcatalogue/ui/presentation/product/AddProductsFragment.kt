@@ -11,15 +11,15 @@ import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.databinding.FragmentAddProductsBinding
 import com.example.productcatalogue.ui.presentation.BaseFragment
 import com.example.productcatalogue.ui.presentation.product.viewModel.AddProductViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
+@AndroidEntryPoint
 
 class AddProductsFragment : BaseProductFragment() {
 
-    override val viewModel: AddProductViewModel by viewModels() {
-        AddProductViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
-    }
+    override val viewModel: AddProductViewModel by viewModels()
 
-//    override fun getLayoutResource(): Int = R.layout.fragment_add_products
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
@@ -30,6 +30,7 @@ class AddProductsFragment : BaseProductFragment() {
                     viewModel.addProduct(it)
                 }
             }
+            btnDelete.visibility = View.GONE
         }
     }
 

@@ -7,17 +7,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.example.productcatalogue.data.api.RetrofitClient
 import com.example.productcatalogue.data.model.Product
-import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.ui.presentation.product.viewModel.EditProductViewModel
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class EditProductFragment : BaseProductFragment() {
-    override val viewModel: EditProductViewModel by viewModels {
-        EditProductViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
-    }
+    override val viewModel: EditProductViewModel by viewModels()
     val product: MutableLiveData<Product> = MutableLiveData()
 
 
@@ -48,6 +45,14 @@ class EditProductFragment : BaseProductFragment() {
                         viewModel.updateProduct(navArgs.id, it)
                     }
                 }
+
+                btnDelete.setOnClickListener {
+                    val product = getProduct()
+                    product?.let {
+                        viewModel.deleteProduct(navArgs.id)
+                    }
+                }
+
             }
         }
         lifecycleScope.launch {

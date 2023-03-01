@@ -7,10 +7,13 @@ import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.ui.viewModel.BaseViewModel
 import com.example.productcatalogue.utils.Utils.validate
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddProductViewModel(repo: ProductRepository) : BaseProductViewModel(repo) {
+@HiltViewModel
+class AddProductViewModel @Inject constructor(repo: ProductRepository) : BaseProductViewModel(repo) {
 
     fun addProduct(
         prod: Product
@@ -22,12 +25,10 @@ class AddProductViewModel(repo: ProductRepository) : BaseProductViewModel(repo) 
         )
         viewModelScope.launch {
             if (validationStatus) {
-
                 safeApiCall { repo.addProduct(prod) }
                 finish.emit(Unit)
 
             } else {
-
                 error.emit("Please fill in every details")
             }
         }

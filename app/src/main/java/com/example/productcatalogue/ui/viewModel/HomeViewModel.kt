@@ -7,10 +7,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(private val repo: ProductRepository) : BaseViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repo: ProductRepository) : BaseViewModel() {
 
     val products: MutableLiveData<MutableList<Product>> = MutableLiveData()
 //    val error: MutableSharedFlow<String> = MutableSharedFlow()
@@ -26,13 +29,8 @@ class HomeViewModel(private val repo: ProductRepository) : BaseViewModel() {
             res?.let{
                 products.value = it.toMutableList()
             }
-//        val res = safeApiCall { repo.getAllProducts() }
         }
     }
 
-    class Provider(private val repo: ProductRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return HomeViewModel(repo) as T
-        }
-    }
+
 }
