@@ -1,7 +1,7 @@
 package com.example.productcatalogue.data.api
 
 object RetrofitClient {
-    val baseUrl = "http://10.1.104.33:5000"
+    val baseUrl = "https://product-catalogue-hz5q.onrender.com"
 //    var retrofitInstance: ProductApi? = null
 //
 //    fun getInstance(): ProductApi {

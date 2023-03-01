@@ -2,10 +2,7 @@ package com.example.productcatalogue.ui.presentation
 
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.URLUtil
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
@@ -16,12 +13,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.productcatalogue.R
-import com.example.productcatalogue.data.api.RetrofitClient
-import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.databinding.FragmentDetailsBinding
-import com.example.productcatalogue.ui.adapter.ProductAdapter
 import com.example.productcatalogue.ui.viewModel.DetailsViewModel
-import com.example.productcatalogue.ui.viewModel.HomeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint

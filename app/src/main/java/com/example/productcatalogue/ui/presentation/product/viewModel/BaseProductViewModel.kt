@@ -1,5 +1,6 @@
 package com.example.productcatalogue.ui.presentation.product.viewModel
 
+import com.example.productcatalogue.data.repository.FireStoreProductRepository
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.ui.viewModel.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

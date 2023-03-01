@@ -2,6 +2,7 @@ package com.example.productcatalogue.ui.presentation.product.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.example.productcatalogue.data.model.Product
+import com.example.productcatalogue.data.repository.FireStoreProductRepository
 import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.utils.Utils.validate
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -14,6 +14,7 @@ abstract class BaseViewModel : ViewModel() {
             apiCall.invoke()
         } catch (e: Exception) {
             error.emit("Something is wrong")
+            e.printStackTrace()
             null
         }
     }

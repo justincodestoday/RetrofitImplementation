@@ -6,9 +6,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.example.productcatalogue.data.api.RetrofitClient
 import com.example.productcatalogue.data.model.Product
-import com.example.productcatalogue.data.repository.ProductRepository
 import com.example.productcatalogue.ui.presentation.product.viewModel.EditProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

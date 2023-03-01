@@ -30,6 +30,10 @@ class ProductAdapter(private var products: MutableList<Product>) :
             tvTitle.text = product.title
             tvCaption.text = caption
             tvRating.text = rating
+            Glide.with(holder.binding.root)
+                .load(product.thumbnail)
+                .placeholder(R.drawable.ic_empty_folder)
+                .into(ivImage)
             if (product.thumbnail.isNotEmpty() && URLUtil.isValidUrl(product.thumbnail)) {
                 Glide.with(holder.binding.root)
                     .load(product.thumbnail).into(ivImage)
@@ -37,7 +41,6 @@ class ProductAdapter(private var products: MutableList<Product>) :
                 Glide.with(holder.binding.root)
                     .load(R.drawable.ic_empty_folder).into(ivImage)
             }
-
             cvTaskItem.setOnClickListener {
                 listener?.onClick(product)
             }

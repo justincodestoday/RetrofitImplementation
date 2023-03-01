@@ -1,11 +1,10 @@
 package com.example.productcatalogue.ui.viewModel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.ProductRepository
+import com.example.productcatalogue.data.repository.ProductRepositoryImplementation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

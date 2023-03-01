@@ -2,7 +2,12 @@ package com.example.productcatalogue.di
 
 import com.example.productcatalogue.data.api.ProductApi
 import com.example.productcatalogue.data.api.RetrofitClient
+import com.example.productcatalogue.data.repository.FireStoreProductRepository
 import com.example.productcatalogue.data.repository.ProductRepository
+import com.example.productcatalogue.data.repository.ProductRepositoryImplementation
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,9 +58,23 @@ object MyAppDependency {
             .create(ProductApi::class.java)
     }
 
+    // uncomment this to use Retrofit
+//    @Provides
+//    @Singleton
+//    fun getProductRepository(productApi: ProductApi): ProductRepository {
+//        return ProductRepositoryImplementation(productApi)
+//    }
+
     @Provides
     @Singleton
-    fun getProductRepository(productApi: ProductApi): ProductRepository {
-        return ProductRepository(productApi)
+    fun getFireStore(): FirebaseFirestore {
+        return Firebase.firestore
+    }
+
+    // uncomment this to use Firebase
+    @Provides
+    @Singleton
+    fun getFireStoreProductRepository(db: FirebaseFirestore): ProductRepository {
+        return FireStoreProductRepository(db.collection("products"))
     }
 }
