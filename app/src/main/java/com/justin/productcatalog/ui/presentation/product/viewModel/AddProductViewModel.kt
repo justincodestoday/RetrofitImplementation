@@ -1,14 +1,9 @@
 package com.justin.productcatalog.ui.presentation.product.viewModel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.justin.productcatalog.data.model.Product
 import com.justin.productcatalog.data.repository.ProductRepository
-import com.justin.productcatalog.ui.viewModel.BaseViewModel
-import com.justin.productcatalog.util.Utils.validate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,6 +39,7 @@ class AddProductViewModel @Inject constructor(productRepo: ProductRepository) :
             try {
                 safeApiCall { productRepo.addProduct(product) }
                 finish.emit(Unit)
+
 //                if (validationStatus) {
 //                    val _product =
 //                        Product(

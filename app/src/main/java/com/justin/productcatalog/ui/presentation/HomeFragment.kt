@@ -1,27 +1,16 @@
 package com.justin.productcatalog.ui.presentation
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.justin.productcatalog.MyApplication
 import com.justin.productcatalog.R
-import com.justin.productcatalog.data.api.RetrofitClient
-import com.justin.productcatalog.data.repository.ProductRepository
 import com.justin.productcatalog.databinding.FragmentHomeBinding
 import com.justin.productcatalog.ui.adapter.ProductAdapter
-import com.justin.productcatalog.ui.presentation.product.UpdateProductFragment
 import com.justin.productcatalog.ui.viewModel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -78,8 +67,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         adapter = ProductAdapter(
             mutableListOf()
         ) {
-            val action = HomeFragmentDirections.actionHomeFragmentToUpdateProductFragment(it.id!!)
-            navController.navigate(action)
+            lifecycleScope.launch {
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToUpdateProductFragment(it.id!!)
+                navController.navigate(action)
+
+//                if (it.equals(null)) {
+//                    val err: Exception = Exception()
+//                    viewModel.error.emit(err.message.toString())
+//                    viewModel.getProducts()
+//                }
+            }
         }
         val layoutManager = GridLayoutManager(this.activity, 2)
         binding?.rvProducts?.adapter = adapter

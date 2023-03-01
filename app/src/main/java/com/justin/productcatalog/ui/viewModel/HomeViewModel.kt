@@ -2,11 +2,11 @@ package com.justin.productcatalog.ui.viewModel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.justin.productcatalog.data.model.Product
+import com.justin.productcatalog.data.repository.FireStoreProductRepository
 import com.justin.productcatalog.data.repository.ProductRepository
+import com.justin.productcatalog.data.repository.ProductRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch

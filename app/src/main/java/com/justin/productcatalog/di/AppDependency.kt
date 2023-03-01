@@ -1,8 +1,13 @@
 package com.justin.productcatalog.di
 
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.justin.productcatalog.data.api.ProductApi
 import com.justin.productcatalog.data.api.RetrofitClient
+import com.justin.productcatalog.data.repository.FireStoreProductRepository
 import com.justin.productcatalog.data.repository.ProductRepository
+import com.justin.productcatalog.data.repository.ProductRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,6 +50,7 @@ object AppDependency {
         return "Welcome back"
     }
 
+    // Using MongoDB
     @Provides
     @Singleton
     fun getRetrofitClient(): ProductApi {
@@ -57,9 +63,23 @@ object AppDependency {
             .create(ProductApi::class.java)
     }
 
+//    @Provides
+//    @Singleton
+//    fun getProductRepository(productApi: ProductApi): ProductRepository {
+//        return ProductRepositoryImpl(productApi)
+//    }
+
+
+    // Using FireStore
     @Provides
     @Singleton
-    fun getProductRepository(productApi: ProductApi): ProductRepository {
-        return ProductRepository(productApi)
+    fun getFireStore(): FirebaseFirestore {
+        return Firebase.firestore
+    }
+
+    @Provides
+    @Singleton
+    fun getFireStoreProductRepository(db: FirebaseFirestore): ProductRepository {
+        return FireStoreProductRepository(db.collection("products"))
     }
 }

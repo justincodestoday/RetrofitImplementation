@@ -80,3 +80,6 @@ class ProductAdapter(
 
 // study Interceptor
 // and Dagger-Hilt2
+
+// loose coupling
+// dependency inversion principle
