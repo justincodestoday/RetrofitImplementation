@@ -49,41 +49,55 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Join us!"
                 android:layout_marginBottom="24dp"
+                android:text="Join us!"
                 android:textColor="@color/accent"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/etUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/product_input"
                 android:hint="Username"
                 android:padding="8dp"
-                android:layout_marginBottom="12dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/tertiary" />
 
             <EditText
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/product_input"
                 android:hint="Password"
                 android:padding="8dp"
-                android:layout_marginBottom="12dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/tertiary" />
+
+            <EditText
+                android:id="@+id/etPassword2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/product_input"
+                android:hint="Confirm Password"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/tertiary" />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Signup"
-                app:cornerRadius="8dp"
-                android:textColor="@color/black"
+                android:layout_gravity="start"
                 android:backgroundTint="@color/accent"
-                android:layout_gravity="start"/>
+                android:text="Signup"
+                android:textColor="@color/black"
+                app:cornerRadius="8dp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
