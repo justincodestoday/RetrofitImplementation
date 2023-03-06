@@ -2,21 +2,17 @@ package com.example.productcatelogue.ui.presentation
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.productcatelogue.R
 import com.example.productcatelogue.data.api.RetrofitClient
 import com.example.productcatelogue.data.model.Product
-import com.example.productcatelogue.data.repository.ProductRepository
+import com.example.productcatelogue.data.repository.ProductRepositoryImpl
 import com.example.productcatelogue.databinding.FragmentHomeBinding
 import com.example.productcatelogue.ui.adapter.ProductAdapter
 import com.example.productcatelogue.ui.viewModel.HomeViewModel
@@ -44,6 +40,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         binding?.btnAdd?.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToAddFragment()
+            navController.navigate(action)
+        }
+        binding?.btnLogout?.setOnClickListener {
+            viewModel.logout()
+            val action=HomeFragmentDirections.toLoginFragment()
             navController.navigate(action)
         }
     }
@@ -89,12 +90,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = ProductAdapter(mutableListOf(), {
-
-            val action = HomeFragmentDirections.actionHomeFragmentToEditProductFragment(it.id!!)
-            navController.navigate(action)
+            it.id?.let { id ->
+                val action = HomeFragmentDirections.actionHomeFragmentToEditProductFragment(id)
+                navController.navigate(action)
+            }
         }, {
             lifecycleScope.launch {
                 viewModel.deleteProducts(it.id!!)
+                Log.d("idk","is this here")
                 viewModel.finishFromDelete.collect {
                     val bundle = Bundle()
                     bundle.putBoolean("refresh", true)

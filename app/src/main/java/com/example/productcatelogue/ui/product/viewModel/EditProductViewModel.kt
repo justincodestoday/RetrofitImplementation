@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.productcatelogue.data.model.Product
+import com.example.productcatelogue.data.repository.ProductFirebaseRepositoryImpl
 import com.example.productcatelogue.data.repository.ProductRepository
 import com.example.productcatelogue.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,13 +19,12 @@ class EditProductViewModel @Inject constructor(repo: ProductRepository) : BasePr
 
     fun getProductById(id: String) {
 
-        viewModelScope.launch {
-            Log.d("ewqewq","ewqewqewq")
-            val res = repo.getProductById(id)
-            res.let {
-                product.value = it
+                viewModelScope.launch {
+                    val res=safeApiCall { repo.getProductById(id) }
+                    res?.let{
+                        product.value=it
+                }
             }
-        }
     }
 
     fun updateProduct(
@@ -51,10 +51,10 @@ class EditProductViewModel @Inject constructor(repo: ProductRepository) : BasePr
         }
     }
 
-    class Provider(private val repository: ProductRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return EditProductViewModel(repository) as T
-        }
-    }
+//    class Provider(private val repository: ProductFirebaseRepositoryImpl) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return EditProductViewModel(repository) as T
+//        }
+//    }
 
 }

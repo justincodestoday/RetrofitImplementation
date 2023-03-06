@@ -5,11 +5,6 @@ import android.view.View
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.productcatelogue.R
-import com.example.productcatelogue.data.api.RetrofitClient
-import com.example.productcatelogue.data.repository.ProductRepository
-import com.example.productcatelogue.databinding.FragmentAddBinding
-import com.example.productcatelogue.ui.presentation.BaseFragment
 import com.example.productcatelogue.ui.product.viewModel.AddViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

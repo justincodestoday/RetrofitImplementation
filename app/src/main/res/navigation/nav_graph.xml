@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
-
+    <action android:id="@+id/toLoginFragment"
+        app:destination="@id/loginFragment2"/>
+    <action android:id="@+id/toHomeFragment"
+        app:destination="@id/homeFragment"/>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.productcatelogue.ui.presentation.HomeFragment"
@@ -16,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_editProductFragment"
             app:destination="@id/editProductFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -28,5 +34,19 @@
         tools:layout="@layout/fragment_edit_product" >
         <argument android:name="id"
             app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment2"
+        android:name="com.example.productcatelogue.ui.presentation.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="com.example.productcatelogue.ui.presentation.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment2_to_registerFragment2"
+            app:destination="@id/registerFragment2" />
     </fragment>
 </navigation>
