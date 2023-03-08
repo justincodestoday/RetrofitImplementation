@@ -2,6 +2,8 @@ package com.justin.productcatalog.data.repository
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue
+import com.justin.productcatalog.data.model.DeptWithStudent
 import com.justin.productcatalog.data.model.Product
 import kotlinx.coroutines.tasks.await
 
@@ -21,16 +23,20 @@ class FireStoreProductRepository(private val ref: CollectionReference) : Product
     }
 
     override suspend fun addProduct(product: Product) {
-        ref.add(product.toHashMap()).await()
+        ref.add(product).await()
     }
 
     override suspend fun updateProduct(id: String, product: Product): Product {
         val updatedProduct = product.copy(id = id)
-        ref.document(id).update(updatedProduct.toHashMap()).await()
+        ref.document(id).set(updatedProduct).await()
         return updatedProduct
     }
 
     override suspend fun deleteProduct(id: String) {
         ref.document(id).delete().await()
+    }
+
+    override suspend fun addDummy(dummy: DeptWithStudent) {
+        ref.add(dummy).await()
     }
 }

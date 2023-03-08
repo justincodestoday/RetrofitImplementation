@@ -1,10 +1,14 @@
 package com.justin.productcatalog.ui.presentation
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -18,6 +22,8 @@ import kotlinx.coroutines.launch
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     lateinit var navController: NavController
+    lateinit var imageGallery: ActivityResultLauncher<String>
+    var fileUri: Uri? = null
     abstract val viewModel: BaseViewModel
     var binding: T? = null
 

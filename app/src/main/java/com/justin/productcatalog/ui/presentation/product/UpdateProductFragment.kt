@@ -1,12 +1,21 @@
 package com.justin.productcatalog.ui.presentation.product
 
+import android.net.Uri
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
+import android.text.method.ScrollingMovementMethod
+import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.justin.productcatalog.R
+import com.justin.productcatalog.data.service.StorageService
 import com.justin.productcatalog.ui.presentation.product.viewModel.UpdateProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,6 +32,23 @@ class UpdateProductFragment : BaseProductFragment() {
 
         val args: UpdateProductFragmentArgs by navArgs()
         viewModel.getProductById(args.id)
+
+        imageGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            fileUri = it
+            it?.let { uri ->
+                binding?.run {
+                    ivImage.setImageURI(uri)
+                    tvPath.text = requireContext().contentResolver.getFileName(uri)
+                }
+            }
+        }
+
+
+        binding?.tvUploadImage?.setOnClickListener {
+            imageGallery.launch("image/*")
+        }
+
+
         viewModel.product.observe(viewLifecycleOwner) {
             binding?.apply {
                 tvHeader.text = "Update Product"
@@ -35,6 +61,17 @@ class UpdateProductFragment : BaseProductFragment() {
                 etRating.setText(it.rating.toString())
                 etStock.setText(it.stock.toString())
                 btnDelete.isVisible = true
+                it.thumbnail?.let { thumbnail ->
+                    StorageService.getImageUri(thumbnail) { uri ->
+                        Log.d("debugging", "$uri")
+                        Glide.with(requireContext())
+                            .load(uri)
+                            .placeholder(R.drawable.insert_photo)
+                            .into(ivImage)
+                        tvPath.text = uri.toString()
+                        tvPath.movementMethod = ScrollingMovementMethod()
+                    }
+                }
 
                 btnSave.setOnClickListener {
                     val product = getProduct()

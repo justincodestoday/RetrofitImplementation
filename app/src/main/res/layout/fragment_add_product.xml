@@ -3,10 +3,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.AddProductFragment">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tvHeader"
@@ -34,6 +32,28 @@
             app:layout_constraintGuide_percent="0.1"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/insert_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline" />
+
+        <TextView
+            android:id="@+id/tvUploadImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center"
+            android:text="Upload Image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivImage" />
+
         <EditText
             android:id="@+id/etBrand"
             style="@style/Edit.Text.Fill"
@@ -48,7 +68,7 @@
             android:textColorHint="@color/gray_500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline" />
+            app:layout_constraintTop_toBottomOf="@id/tvUploadImage" />
 
         <EditText
             android:id="@+id/etCategory"
@@ -169,6 +189,33 @@
                 android:hint="Stock"
                 android:inputType="number"
                 android:textColorHint="@color/gray_500" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llNumbers">
+
+            <TextView
+                android:id="@+id/tvThumbnail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:background="@color/gray_500"
+                android:paddingHorizontal="8dp"
+                android:text="thumbnail" />
+
+            <TextView
+                android:id="@+id/tvPath"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7" />
 
         </LinearLayout>
 

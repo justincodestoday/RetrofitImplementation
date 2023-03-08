@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.justin.productcatalog.R
 import com.justin.productcatalog.data.model.Product
+import com.justin.productcatalog.data.service.StorageService
 import com.justin.productcatalog.databinding.ItemLayoutProductBinding
 import com.justin.productcatalog.util.Utils.update
 import java.util.concurrent.Executors
@@ -50,10 +51,14 @@ class ProductAdapter(
             tvBrand.text = item.brand
             tvTitle.text = item.title
 
-            Glide.with(holder.binding.root)
-                .load(item.thumbnail)
-                .placeholder(R.drawable.insert_photo)
-                .into(ivImage)
+            item.thumbnail?.let {
+                StorageService.getImageUri(it) { uri ->
+                    Glide.with(holder.binding.root)
+                        .load(uri)
+                        .placeholder(R.drawable.insert_photo)
+                        .into(ivImage)
+                }
+            }
 
 //            val executor = Executors.newSingleThreadExecutor()
 //            val handler = Handler(Looper.getMainLooper())

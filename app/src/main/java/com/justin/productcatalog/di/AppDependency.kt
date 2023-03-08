@@ -1,13 +1,16 @@
 package com.justin.productcatalog.di
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.justin.productcatalog.data.api.ProductApi
 import com.justin.productcatalog.data.api.RetrofitClient
+import com.justin.productcatalog.data.service.AuthService
 import com.justin.productcatalog.data.repository.FireStoreProductRepository
 import com.justin.productcatalog.data.repository.ProductRepository
-import com.justin.productcatalog.data.repository.ProductRepositoryImpl
+import com.justin.productcatalog.data.service.StorageService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -79,7 +82,19 @@ object AppDependency {
 
     @Provides
     @Singleton
+    fun getFirebaseAuth(): FirebaseAuth {
+        return Firebase.auth
+    }
+
+    @Provides
+    @Singleton
     fun getFireStoreProductRepository(db: FirebaseFirestore): ProductRepository {
         return FireStoreProductRepository(db.collection("products"))
+    }
+
+    @Provides
+    @Singleton
+    fun getFireStoreAuthRepository(auth: FirebaseAuth, db: FirebaseFirestore): AuthService {
+        return AuthService(auth, db.collection("users"))
     }
 }

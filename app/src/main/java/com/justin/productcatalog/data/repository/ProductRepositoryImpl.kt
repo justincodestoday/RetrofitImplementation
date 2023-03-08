@@ -1,6 +1,7 @@
 package com.justin.productcatalog.data.repository
 
 import com.justin.productcatalog.data.api.ProductApi
+import com.justin.productcatalog.data.model.DeptWithStudent
 import com.justin.productcatalog.data.model.Product
 
 class ProductRepositoryImpl(private val productApi: ProductApi): ProductRepository {
@@ -23,6 +24,10 @@ class ProductRepositoryImpl(private val productApi: ProductApi): ProductReposito
 
     override suspend fun deleteProduct(id: String) {
         productApi.deleteProduct(id)
+    }
+
+    override suspend fun addDummy(dummy: DeptWithStudent) {
+        TODO("Not yet implemented")
     }
 
 //    companion object {

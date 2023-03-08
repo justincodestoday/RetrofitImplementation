@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
     val error: MutableSharedFlow<String> = MutableSharedFlow()
-
+    val logout: MutableSharedFlow<Unit> = MutableSharedFlow()
     open fun onViewCreated() {}
 
     suspend fun <T> safeApiCall(apiCall: suspend () -> T): T? {
@@ -15,6 +15,7 @@ abstract class BaseViewModel : ViewModel() {
             apiCall.invoke()
         } catch (e: Exception) {
             error.emit(e.message.toString())
+            e.printStackTrace()
             null
         }
     }

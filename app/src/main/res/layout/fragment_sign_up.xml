@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etName"
+            style="@style/Edit.Text.Fill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/etEmail"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/edit_text"
+            android:hint="Name"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/gray_500" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            style="@style/Edit.Text.Fill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/etPassword"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/gray_500" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            style="@style/Edit.Text.Fill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColorHint="@color/gray_500" />
+
+        <EditText
+            android:id="@+id/etConfirmPassword"
+            style="@style/Edit.Text.Fill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etPassword"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text"
+            android:hint="ConfirmPassword"
+            android:inputType="textPassword"
+            android:textColorHint="@color/gray_500" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnProceed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etConfirmPassword"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/custom_button"
+            android:text="Login"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tvNavigate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Haven't signed up yet? Click here to register."
+            android:textColor="@color/app_bg"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</layout>

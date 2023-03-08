@@ -1,13 +1,17 @@
 package com.justin.productcatalog.ui.presentation.product.viewModel
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.justin.productcatalog.data.model.Product
 import com.justin.productcatalog.data.repository.FireStoreProductRepository
 import com.justin.productcatalog.data.repository.ProductRepository
 import com.justin.productcatalog.data.repository.ProductRepositoryImpl
+import com.justin.productcatalog.data.service.StorageService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,6 +55,16 @@ class UpdateProductViewModel @Inject constructor(productRepo: ProductRepository)
                 error.emit(e.message.toString())
             }
         }
+    }
+
+    fun getImageUri(imageName: String): Uri? {
+        var thumbnail: Uri? = null
+        viewModelScope.launch {
+            StorageService.getImageUri(imageName) {
+                thumbnail = it
+            }
+        }
+        return thumbnail
     }
 
 //    class Provider(private val productRepo: ProductRepository) : ViewModelProvider.Factory {

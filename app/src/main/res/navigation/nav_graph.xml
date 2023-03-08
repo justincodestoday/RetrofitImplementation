@@ -5,6 +5,22 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
+    <action
+        android:id="@+id/toSignInFragment"
+        app:destination="@id/signInFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/toHomeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/signInFragment"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/toSignUpFragment"
+        app:destination="@id/signUpFragment" />
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.justin.productcatalog.ui.presentation.HomeFragment"
@@ -28,4 +44,18 @@
             android:name="id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.justin.productcatalog.ui.presentation.credential.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.justin.productcatalog.ui.presentation.credential.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
 </navigation>

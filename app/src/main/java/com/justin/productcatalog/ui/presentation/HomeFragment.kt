@@ -33,6 +33,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             navController.navigate(R.id.addProductFragment)
         }
 
+        binding?.btnLogout?.setOnClickListener {
+            viewModel.logout()
+            val action = HomeFragmentDirections.toSignInFragment()
+            navController.navigate(action)
+        }
+
+        binding?.btnAddDummy?.setOnClickListener {
+            viewModel.addDummy()
+        }
+
         fragmentResultListener()
     }
 

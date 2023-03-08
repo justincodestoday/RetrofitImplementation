@@ -1,5 +1,6 @@
 package com.justin.productcatalog.data.repository
 
+import com.justin.productcatalog.data.model.DeptWithStudent
 import com.justin.productcatalog.data.model.Product
 
 interface ProductRepository {
@@ -12,4 +13,6 @@ interface ProductRepository {
     suspend fun updateProduct(id: String, product: Product): Product?
 
     suspend fun deleteProduct(id: String)
+
+    suspend fun addDummy(dummy: DeptWithStudent)
 }

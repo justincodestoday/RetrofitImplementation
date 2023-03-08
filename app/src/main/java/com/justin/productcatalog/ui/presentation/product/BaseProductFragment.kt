@@ -1,16 +1,14 @@
 package com.justin.productcatalog.ui.presentation.product
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.content.ContentResolver
+import android.net.Uri
+import android.provider.OpenableColumns
 import androidx.lifecycle.lifecycleScope
 import com.justin.productcatalog.R
 import com.justin.productcatalog.data.model.Product
 import com.justin.productcatalog.databinding.FragmentAddProductBinding
 import com.justin.productcatalog.ui.presentation.BaseFragment
-import com.justin.productcatalog.util.Utils.validate
+import com.justin.productcatalog.util.Utils
 import kotlinx.coroutines.launch
 
 abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
@@ -28,7 +26,7 @@ abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
             val stock = etStock.text.toString()
 
             val validationStatus =
-                validate(
+                Utils.validate(
                 brand,
                 category,
                 title,
@@ -56,5 +54,18 @@ abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
                 stock.toInt()
             )
         }
+    }
+
+    fun ContentResolver.getFileName(fileUri: Uri): String {
+        val cursor = this.query(fileUri, null, null, null, null)
+
+        cursor?.let {
+            val name = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            cursor.moveToFirst()
+            return cursor.getString(name)
+        }
+        cursor?.close()
+
+        return "Unknown"
     }
 }

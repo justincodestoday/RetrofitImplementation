@@ -1,5 +1,6 @@
 package com.justin.productcatalog.data.model
 
+import com.google.firebase.firestore.DocumentId
 import com.google.gson.annotations.SerializedName
 
 data class Product(
@@ -14,18 +15,25 @@ data class Product(
     val rating: Float? = 0f,
     val stock: Int? = 0,
     val thumbnail: String? = null,
-    val images: List<String>? = null
+    val images: List<String> = listOf("image1", "image2"),
+    val image: Image = Image("image", "path"),
 ) {
-    fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
-            "brand" to brand,
-            "category" to category,
-            "title" to title,
-            "description" to description,
-            "price" to price,
-            "discountPercentage" to discountPercentage,
-            "rating" to rating,
-            "stock" to stock
-        )
-    }
+//    fun toHashMap(): HashMap<String, Any?> {
+//        return hashMapOf(
+//            "id" to id,
+//            "brand" to brand,
+//            "category" to category,
+//            "title" to title,
+//            "description" to description,
+//            "price" to price,
+//            "discountPercentage" to discountPercentage,
+//            "rating" to rating,
+//            "stock" to stock
+//        )
+//    }
 }
+
+data class Image(
+    val name: String = "",
+    val path: String = ""
+)

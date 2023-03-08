@@ -1,7 +1,16 @@
 package com.justin.productcatalog.ui.presentation.product
 
+import android.content.ContentResolver
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
+import android.text.method.ScrollingMovementMethod
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,11 +30,24 @@ class AddProductFragment : BaseProductFragment() {
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
 
+        imageGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            fileUri = it
+            it?.let { uri ->
+                binding?.run {
+                    ivImage.setImageURI(uri)
+                    tvPath.text = requireContext().contentResolver.getFileName(uri)
+                }
+            }
+        }
+
         binding?.run {
+            tvUploadImage.setOnClickListener {
+                imageGallery.launch("image/*")
+            }
             btnSave.setOnClickListener {
                 val product = getProduct()
                 product?.let {
-                    viewModel.addProduct(it)
+                    viewModel.addProduct(it, fileUri)
                 }
 //                val brand = etBrand.text.toString()
 //                val category = etCategory.text.toString()
