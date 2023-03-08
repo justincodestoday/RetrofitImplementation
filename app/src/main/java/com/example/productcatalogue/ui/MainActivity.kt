@@ -2,27 +2,32 @@ package com.example.productcatalogue.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.navigation.findNavController
 import com.example.productcatalogue.R
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.example.productcatalogue.data.service.AuthService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import javax.inject.Named
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    @Inject
-    @Named("greeting")
-    lateinit var greeting: String
+//    @Inject
+//    @Named("greeting")
+//    lateinit var greeting: String
+//
+//    @Inject
+//    @Named("welcome")
+//    lateinit var welcome: String
 
     @Inject
-    @Named("welcome")
-    lateinit var welcome: String
+    lateinit var authRepo: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (!authRepo.isAuthenticate()) {
+            findNavController(R.id.navHostFragment).navigate(R.id.loginFragment)
+        }
 
 //        val db = Firebase.firestore
 

@@ -1,7 +1,11 @@
 package com.example.productcatalogue.ui.presentation.product
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +19,19 @@ class AddProductFragment : BaseProductFragment() {
 //        AddProductViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
 //    }
     override val viewModel: AddProductViewModel by viewModels()
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
+    private var fileUri: Uri? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            fileUri = it
+            it?.let { uri ->
+                binding?.ivUploadImage?.setImageURI(uri)
+            }
+        }
+    }
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
@@ -23,11 +40,15 @@ class AddProductFragment : BaseProductFragment() {
                 val product = getProduct()
                 if (product !== null) {
                     product.let {
-                        viewModel.addProduct(it)
+                        viewModel.addProduct(it, fileUri)
                     }
                 } else {
                     viewModel.validateFail()
                 }
+            }
+
+            tvUploadImage.setOnClickListener {
+                imagePickerLauncher.launch("image/*")
             }
         }
         binding!!.btnCancel.setOnClickListener {

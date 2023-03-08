@@ -1,6 +1,5 @@
 package com.example.productcatalogue.ui.viewModel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -9,12 +8,11 @@ abstract class BaseViewModel : ViewModel() {
 
     open fun onViewCreated() {}
 
-    suspend fun <T> safeApiCall(apiCall: suspend () -> T): T? {
+    suspend fun <T> safeApiCall(callback: suspend () -> T): T? {
         return try {
-            apiCall.invoke()
+            callback.invoke()
         } catch (e: Exception) {
-            error.emit("Something is wrong")
-            e.printStackTrace()
+            error.emit(e.message.toString())
             null
         }
     }

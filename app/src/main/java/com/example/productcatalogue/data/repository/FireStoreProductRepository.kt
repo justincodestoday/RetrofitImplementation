@@ -1,5 +1,6 @@
 package com.example.productcatalogue.data.repository
 
+import com.example.productcatalogue.data.model.DeptWithStudent
 import com.example.productcatalogue.data.model.Product
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
@@ -7,17 +8,20 @@ import kotlinx.coroutines.tasks.await
 class FireStoreProductRepository(private val ref: CollectionReference) : ProductRepository {
 
     override suspend fun addProduct(product: Product) {
-        ref.add(product.toHashMap()).await()
+//        ref.add(product.toHashMap()).await()
+        ref.add(product).await()
     }
 
     override suspend fun deleteProduct(id: String) {
         ref.document(id).delete().await()
     }
 
-    override suspend fun editProduct(id: String, product: Product): Product {
-        val update = product.copy(id = id)
-        ref.document(id).set(update.toHashMap()).await()
-        return update
+    override suspend fun editProduct(id: String, product: Product): Product? {
+//        val update = product.copy(id = id)
+//        ref.document(id).set(update.toHashMap()).await()
+//        return update
+        ref.document(id).set(product).await()
+        return null
     }
 
     override suspend fun getAllProducts(): MutableList<Product> {
@@ -33,6 +37,14 @@ class FireStoreProductRepository(private val ref: CollectionReference) : Product
         val res = ref.document(id).get().await()
         return res.toObject(Product::class.java)?.copy(id = id)
     }
+
+    override suspend fun addDummy(dummy: DeptWithStudent) {
+        ref.add(dummy).await()
+    }
+
+//    override suspend fun addToCart(product: Product): Boolean {
+//        TODO("Not yet implemented")
+//    }
 }
 
 //class FireStoreProductRepository(private val ref: CollectionReference) {

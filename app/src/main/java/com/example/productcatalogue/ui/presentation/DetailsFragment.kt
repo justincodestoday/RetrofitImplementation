@@ -9,15 +9,20 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.productcatalogue.R
+import com.example.productcatalogue.data.service.StorageService
 import com.example.productcatalogue.databinding.FragmentDetailsBinding
 import com.example.productcatalogue.ui.viewModel.DetailsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
@@ -27,13 +32,23 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
 
     override val viewModel: DetailsViewModel by viewModels()
     override fun getLayoutResource() = R.layout.fragment_details
+    val args: DetailsFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.getProductById(args.id)
+            }
+        }
+    }
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
 
-        val navArgs: DetailsFragmentArgs by navArgs()
-        val productId = navArgs.id
-        viewModel.getProductById(productId)
+//        val navArgs: DetailsFragmentArgs by navArgs()
+//        val productId = navArgs.id
+//        viewModel.getProductById(productId)
         binding!!.btnBack.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean("refresh", true)
@@ -41,8 +56,12 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
             NavHostFragment.findNavController(this).popBackStack()
         }
 
+        binding!!.btnAddToCart.setOnClickListener {
+            viewModel.addToCart()
+        }
+
         binding!!.btnEdit.setOnClickListener {
-            val action = DetailsFragmentDirections.actionDetailsToEditProduct(productId)
+            val action = DetailsFragmentDirections.actionDetailsToEditProduct(args.id)
             navController.navigate(action)
         }
 
@@ -54,7 +73,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
                 .setTitle("Delete $title?")
                 .setCancelable(true)
                 .setPositiveButton("Delete") { _, it ->
-                    viewModel.deleteProduct(productId)
+                    viewModel.deleteProduct(args.id)
                     setFragmentResult("from_delete_product", bundle)
                     NavHostFragment.findNavController(this).popBackStack()
                     val snackbar = Snackbar.make(
@@ -80,7 +99,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
                 }.show()
         }
 
-        fragmentResultListener(productId)
+        fragmentResultListener(args.id)
     }
 
     override fun onBindData(view: View) {
@@ -100,10 +119,13 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
                 tvDiscount.text = discount
                 tvStock.text = stock
 
-                if (it.thumbnail.isNotEmpty() && URLUtil.isValidUrl(it.thumbnail)) {
-                    Glide.with(binding!!.root).load(it.thumbnail).into(ivImage)
-                } else {
-                    Glide.with(binding!!.root).load(R.drawable.ic_empty_folder).into(ivImage)
+                it.thumbnail?.let { it1 ->
+                    StorageService.getImageUri(it1) {
+                        Glide.with(requireContext())
+                            .load(it)
+                            .placeholder(R.drawable.ic_empty_folder)
+                            .into(ivImage)
+                    }
                 }
             }
         }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.productcatalogue.R
 import com.example.productcatalogue.data.model.Product
+import com.example.productcatalogue.data.service.StorageService
 import com.example.productcatalogue.databinding.ItemProductLayoutBinding
 import com.example.productcatalogue.utils.Utils.update
 
@@ -30,17 +31,23 @@ class ProductAdapter(private var products: MutableList<Product>) :
             tvTitle.text = product.title
             tvCaption.text = caption
             tvRating.text = rating
-            Glide.with(holder.binding.root)
-                .load(product.thumbnail)
-                .placeholder(R.drawable.ic_empty_folder)
-                .into(ivImage)
-            if (product.thumbnail.isNotEmpty() && URLUtil.isValidUrl(product.thumbnail)) {
-                Glide.with(holder.binding.root)
-                    .load(product.thumbnail).into(ivImage)
-            } else {
-                Glide.with(holder.binding.root)
-                    .load(R.drawable.ic_empty_folder).into(ivImage)
+
+            product.thumbnail?.let {
+                StorageService.getImageUri(it) { uri ->
+                    Glide.with(holder.binding.root)
+                        .load(uri)
+                        .placeholder(R.drawable.ic_empty_folder)
+                        .into(ivImage)
+                }
             }
+
+//            if (product.thumbnail?.isNotEmpty() == true && URLUtil.isValidUrl(product.thumbnail)) {
+//                Glide.with(holder.binding.root)
+//                    .load(product.thumbnail).into(ivImage)
+//            } else {
+//                Glide.with(holder.binding.root)
+//                    .load(R.drawable.ic_empty_folder).into(ivImage)
+//            }
             cvTaskItem.setOnClickListener {
                 listener?.onClick(product)
             }

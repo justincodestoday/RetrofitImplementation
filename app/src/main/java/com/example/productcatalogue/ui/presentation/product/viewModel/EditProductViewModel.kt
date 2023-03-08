@@ -1,13 +1,17 @@
 package com.example.productcatalogue.ui.presentation.product.viewModel
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.productcatalogue.data.model.Product
 import com.example.productcatalogue.data.repository.FireStoreProductRepository
 import com.example.productcatalogue.data.repository.ProductRepository
+import com.example.productcatalogue.data.service.StorageService
 import com.example.productcatalogue.utils.Utils.validate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +21,8 @@ class EditProductViewModel @Inject constructor(repo: ProductRepository) :
 
     fun editProduct(
         id: String,
-        product: Product
+        product: Product,
+        imageUri: Uri?
     ) {
         val validationStatus = validate(
             product.title,
@@ -30,11 +35,33 @@ class EditProductViewModel @Inject constructor(repo: ProductRepository) :
             product.rating.toString()
         )
         viewModelScope.launch {
-            if (validationStatus) {
-                safeApiCall { repo.editProduct(id, product) }
-                finish.emit(Unit)
+            if (imageUri == null) {
+                if (validationStatus) {
+                    safeApiCall { repo.editProduct(id, product) }
+                    finish.emit(Unit)
+                } else {
+                    error.emit("Kindly provide all information")
+                }
             } else {
-                error.emit("Kindly provide all information")
+                val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.ENGLISH)
+                val date = Date()
+                val imageName = formatter.format(date)
+
+                imageUri.let {
+                    StorageService.addImage(it, imageName) { status ->
+                        if (!status) {
+                            viewModelScope.launch {
+                                error.emit("Image upload failed")
+                            }
+                        }
+                    }
+                }
+                if (validationStatus) {
+                    safeApiCall { repo.editProduct(id, product.copy(thumbnail = imageName)) }
+                    finish.emit(Unit)
+                } else {
+                    error.emit("Kindly provide all information")
+                }
             }
         }
     }

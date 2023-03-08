@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-//    override val viewModel: HomeViewModel by viewModels {
+    //    override val viewModel: HomeViewModel by viewModels {
 //        HomeViewModel.Provider(ProductRepository.getInstance(RetrofitClient.getInstance()))
 //    }
     override val viewModel: HomeViewModel by viewModels()
@@ -31,6 +31,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             navController.navigate(action)
         }
         fragmentResultListener()
+
+        binding!!.btnLogout.setOnClickListener {
+            viewModel.logout()
+            val action = HomeFragmentDirections.toLoginFragment()
+            navController.navigate(action)
+        }
+
+        binding!!.btnAddDummy.setOnClickListener {
+            viewModel.addDummy()
+        }
     }
 
     override fun onBindData(view: View) {
@@ -44,14 +54,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setFragmentResultListener("from_add_product") { _, result ->
             val refresh = result.getBoolean("refresh")
             if (refresh) {
-                viewModel.getProducts()
+                viewModel.onRefresh()
             }
         }
 
         setFragmentResultListener("from_details") { _, result ->
             val refresh = result.getBoolean("refresh")
             if (refresh) {
-                viewModel.getProducts()
+                viewModel.onRefresh()
             }
         }
     }
@@ -62,7 +72,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         adapter.listener = object : ProductAdapter.Listener {
             override fun onClick(product: Product) {
                 val action = HomeFragmentDirections.actionHomeToDetails(product.id!!)
-                NavHostFragment.findNavController(this@HomeFragment).navigate(action)
+                navController.navigate(action)
             }
         }
         binding!!.rvProducts.adapter = adapter

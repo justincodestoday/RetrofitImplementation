@@ -1,5 +1,6 @@
 package com.example.productcatalogue.data.repository
 
+import com.example.productcatalogue.data.model.DeptWithStudent
 import com.example.productcatalogue.data.model.Product
 
 interface ProductRepository {
@@ -12,4 +13,8 @@ interface ProductRepository {
     suspend fun deleteProduct(id: String)
 
     suspend fun editProduct(id: String, product: Product): Product?
+
+    suspend fun addDummy(dummy: DeptWithStudent)
+
+//    suspend fun addToCart(product: Product): Boolean
 }

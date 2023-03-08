@@ -1,9 +1,10 @@
 package com.example.productcatalogue.data.repository
 
 import com.example.productcatalogue.data.api.ProductApi
+import com.example.productcatalogue.data.model.DeptWithStudent
 import com.example.productcatalogue.data.model.Product
 
-class ProductRepositoryImplementation(private val productApi: ProductApi): ProductRepository {
+class ProductRepositoryImplementation(private val productApi: ProductApi) : ProductRepository {
     override suspend fun getAllProducts(): List<Product> {
         return productApi.getAllProducts()
     }
@@ -23,6 +24,14 @@ class ProductRepositoryImplementation(private val productApi: ProductApi): Produ
     override suspend fun deleteProduct(id: String) {
         return productApi.deleteProduct(id)
     }
+
+    override suspend fun addDummy(dummy: DeptWithStudent) {
+        TODO("Not yet implemented")
+    }
+
+//    override suspend fun addToCart(product: Product): Boolean {
+//        TODO("Not yet implemented")
+//    }
 
 //    companion object {
 //        var productRepositoryInstance: ProductRepository? = null

@@ -2,9 +2,13 @@ package com.example.productcatalogue.di
 
 import com.example.productcatalogue.data.api.ProductApi
 import com.example.productcatalogue.data.api.RetrofitClient
+import com.example.productcatalogue.data.service.AuthService
 import com.example.productcatalogue.data.repository.FireStoreProductRepository
+import com.example.productcatalogue.data.repository.FirebaseCartRepository
 import com.example.productcatalogue.data.repository.ProductRepository
-import com.example.productcatalogue.data.repository.ProductRepositoryImplementation
+import com.example.productcatalogue.data.service.StorageService
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -71,10 +75,28 @@ object MyAppDependency {
         return Firebase.firestore
     }
 
+    @Provides
+    @Singleton
+    fun getFirebaseAuth(): FirebaseAuth {
+        return Firebase.auth
+    }
+
     // uncomment this to use Firebase
     @Provides
     @Singleton
     fun getFireStoreProductRepository(db: FirebaseFirestore): ProductRepository {
         return FireStoreProductRepository(db.collection("products"))
+    }
+
+    @Provides
+    @Singleton
+    fun getAuthRepository(auth: FirebaseAuth, db: FirebaseFirestore): AuthService {
+        return AuthService(auth, db.collection("users"))
+    }
+
+    @Provides
+    @Singleton
+    fun getCartRepository(): FirebaseCartRepository {
+        return FirebaseCartRepository()
     }
 }

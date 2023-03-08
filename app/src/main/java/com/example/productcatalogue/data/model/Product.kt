@@ -13,23 +13,27 @@ data class Product(
     val stock: Int = 0,
     val discountPercentage: Float = 0f,
     val rating: Float = 0f,
-    val thumbnail: String = "",
-    val images: List<String>? = null,
-) {
-    fun toHashMap(): HashMap<String, Any> {
-        return hashMapOf(
-            "title" to title,
-            "description" to description,
-            "brand" to brand,
-            "category" to category,
-            "price" to price,
-            "stock" to stock,
-            "discountPercentage" to discountPercentage,
-            "rating" to rating,
-            "thumbnail" to thumbnail,
-        )
-    }
-}
+    val thumbnail: String? = null,
+//    val images: List<String>? = listOf("image1", "image2"),
+//    val image: Image = Image("image", "path")
+)
+
+//data class Image(val name: String = "", val path: String = "")
+//{
+//    fun toHashMap(): HashMap<String, Any> {
+//        return hashMapOf(
+//            "title" to title,
+//            "description" to description,
+//            "brand" to brand,
+//            "category" to category,
+//            "price" to price,
+//            "stock" to stock,
+//            "discountPercentage" to discountPercentage,
+//            "rating" to rating,
+//            "thumbnail" to thumbnail,
+//        )
+//    }
+//}
 
 /*
 title

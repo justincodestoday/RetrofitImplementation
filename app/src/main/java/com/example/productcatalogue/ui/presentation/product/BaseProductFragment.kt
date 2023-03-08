@@ -15,7 +15,7 @@ abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
             val brand = etBrand.text.toString()
             val category = etCategory.text.toString()
             val price = etPrice.text.toString()
-            val stock = etPrice.text.toString()
+            val stock = etStock.text.toString()
             val discount = etDiscount.text.toString()
             val rating = etRating.text.toString()
 
@@ -33,7 +33,6 @@ abstract class BaseProductFragment : BaseFragment<FragmentAddProductBinding>() {
                 stock.toInt(),
                 discount.toFloat(),
                 rating.toFloat(),
-                ""
             )
         }
     }
