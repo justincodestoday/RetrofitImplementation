@@ -34,4 +34,8 @@ class AuthService(private val auth: FirebaseAuth, private val ref: CollectionRef
             ref.document(it).get().await().toObject(User::class.java)
         }
     }
+
+    fun getUid(): String? {
+        return auth.uid
+    }
 }

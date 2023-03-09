@@ -48,7 +48,6 @@ class UpdateProductFragment : BaseProductFragment() {
             imageGallery.launch("image/*")
         }
 
-
         viewModel.product.observe(viewLifecycleOwner) {
             binding?.apply {
                 tvHeader.text = "Update Product"
@@ -60,15 +59,14 @@ class UpdateProductFragment : BaseProductFragment() {
                 etDiscount.setText(it.discountPercentage.toString())
                 etRating.setText(it.rating.toString())
                 etStock.setText(it.stock.toString())
-                btnDelete.isVisible = true
+
                 it.thumbnail?.let { thumbnail ->
                     StorageService.getImageUri(thumbnail) { uri ->
-                        Log.d("debugging", "$uri")
-                        Glide.with(requireContext())
+                        Glide.with(view)
                             .load(uri)
                             .placeholder(R.drawable.insert_photo)
                             .into(ivImage)
-                        tvPath.text = uri.toString()
+                        tvPath.text = thumbnail
                         tvPath.movementMethod = ScrollingMovementMethod()
                     }
                 }
@@ -76,12 +74,9 @@ class UpdateProductFragment : BaseProductFragment() {
                 btnSave.setOnClickListener {
                     val product = getProduct()
                     product?.let {
-                        viewModel.updateProduct(args.id, it)
+                        viewModel.deleteImage(it)
+                        viewModel.updateProductWithNewImage(args.id, it, fileUri)
                     }
-                }
-
-                btnDelete.setOnClickListener {
-                    viewModel.deleteProduct(args.id)
                 }
             }
         }

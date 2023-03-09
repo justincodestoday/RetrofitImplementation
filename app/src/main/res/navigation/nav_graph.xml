@@ -27,8 +27,8 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_updateProductFragment"
-            app:destination="@id/updateProductFragment" />
+            android:id="@+id/action_homeFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addProductFragment"
@@ -58,4 +58,15 @@
         android:name="com.justin.productcatalog.ui.presentation.credential.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.justin.productcatalog.ui.presentation.product.ProductDetailsFragment"
+        android:label="ProductDetailsFragment">
+        <action
+            android:id="@+id/action_productDetailsFragment_to_updateProductFragment"
+            app:destination="@id/updateProductFragment" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>

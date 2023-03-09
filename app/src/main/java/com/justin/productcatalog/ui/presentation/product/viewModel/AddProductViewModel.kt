@@ -43,20 +43,21 @@ class AddProductViewModel @Inject constructor(productRepo: ProductRepository) :
         val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.ENGLISH)
         val date = Date()
         val imageName = formatter.format(date)
-        viewModelScope.launch {
-            imageUri?.let {
-                StorageService.addImage(it, imageName) { status ->
-                    if (!status) {
-                        this.launch {
-                            error.emit("Image Upload Failed")
-                        }
+        imageUri?.let {
+            StorageService.addImage(it, imageName) { status ->
+                if (!status) {
+                    viewModelScope.launch {
+                        error.emit("Image Upload Failed")
+                    }
+                } else {
+                    viewModelScope.launch {
+                        safeApiCall { productRepo.addProduct(product.copy(thumbnail = imageName)) }
+                        finish.emit(Unit) // add loader
                     }
                 }
             }
-            try {
-                safeApiCall { productRepo.addProduct(product.copy(thumbnail = imageName)) }
-                finish.emit(Unit)
-
+        }
+//            try {
 //                if (validationStatus) {
 //                    val _product =
 //                        Product(
@@ -75,10 +76,9 @@ class AddProductViewModel @Inject constructor(productRepo: ProductRepository) :
 //                } else {
 //                    error.emit("Please fill in every detail")
 //                }
-            } catch (e: Exception) {
-                error.emit(e.message.toString())
-            }
-        }
+//            } catch (e: Exception) {
+//                error.emit(e.message.toString())
+//            }
     }
 
 //    class Provider(private val productRepo: ProductRepository) : ViewModelProvider.Factory {

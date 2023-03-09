@@ -7,6 +7,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.justin.productcatalog.data.api.ProductApi
 import com.justin.productcatalog.data.api.RetrofitClient
+import com.justin.productcatalog.data.repository.FireStoreCartRepository
 import com.justin.productcatalog.data.service.AuthService
 import com.justin.productcatalog.data.repository.FireStoreProductRepository
 import com.justin.productcatalog.data.repository.ProductRepository
@@ -96,5 +97,11 @@ object AppDependency {
     @Singleton
     fun getFireStoreAuthRepository(auth: FirebaseAuth, db: FirebaseFirestore): AuthService {
         return AuthService(auth, db.collection("users"))
+    }
+
+    @Provides
+    @Singleton
+    fun getFireStoreCartRepository(): FireStoreCartRepository {
+        return FireStoreCartRepository()
     }
 }

@@ -79,14 +79,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         ) {
             lifecycleScope.launch {
                 val action =
-                    HomeFragmentDirections.actionHomeFragmentToUpdateProductFragment(it.id!!)
+                    HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment(it.id!!)
                 navController.navigate(action)
-
-//                if (it.equals(null)) {
-//                    val err: Exception = Exception()
-//                    viewModel.error.emit(err.message.toString())
-//                    viewModel.getProducts()
-//                }
             }
         }
         val layoutManager = GridLayoutManager(this.activity, 2)
@@ -103,6 +97,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
         setFragmentResultListener("from_update_product") { _, result ->
+            val refresh = result.getBoolean("refresh")
+            if (refresh) {
+                viewModel.getProducts()
+            }
+        }
+
+        setFragmentResultListener("from_delete_product") { _, result ->
             val refresh = result.getBoolean("refresh")
             if (refresh) {
                 viewModel.getProducts()
